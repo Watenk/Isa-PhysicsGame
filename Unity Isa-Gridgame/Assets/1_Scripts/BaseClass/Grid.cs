@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grid : MonoBehaviour
+public class Grid : BaseClass
 {
     public GameObject[] tiles;
     public int gridWidth;
@@ -14,7 +14,11 @@ public class Grid : MonoBehaviour
 
     private GameObject[,] tileArray;
 
-    public void OnStart()
+    public override void OnAwake()
+    {
+    }
+
+    public override void OnStart()
     {
         tileArray = new GameObject[gridWidth, gridHeight];
 
@@ -29,11 +33,16 @@ public class Grid : MonoBehaviour
         }
     }
 
+    public override void OnUpdate()
+    {
+    }
+
     public void SetTile(int _x, int _y, int _value)
     {
         if (_x >= 0 && _x <= gridWidth && _y >= 0 && _y <= gridHeight)
         {
             GameObject currentTile = Instantiate(tiles[_value], GetWorldPos(_x, _y), Quaternion.identity);
+            currentTile.transform.parent = gameObject.transform;
             Destroy(tileArray[_x, _y]);
             tileArray[_x, _y] = currentTile;
         }

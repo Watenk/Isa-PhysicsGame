@@ -4,23 +4,36 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private Grid grid;
-    private Inputs inputs;
+    List<BaseClass> objectsList;
+
     private void Awake()
     {
-        grid = FindObjectOfType<Grid>();
-        inputs = FindObjectOfType<Inputs>();
+        objectsList = new List<BaseClass>();
+        objectsList.AddRange(FindObjectsOfType<BaseClass>());
 
-        inputs.OnAwake();
+        for (int i = 0; i < objectsList.Count; i++) { objectsList[i].OnAwake(); }
     }
 
-    void Start()
+    private void Start()
     {
-        grid.OnStart();
+        for (int i = 0; i < objectsList.Count; i++) { objectsList[i].OnStart(); }
     }
 
-    void Update()
+    private void Update()
     {
-        inputs.OnUpdate();
+        for (int i = 0; i < objectsList.Count; i++) { objectsList[i].OnUpdate(); }
+    }
+
+    public void AddObject(BaseClass _object)
+    {
+        _object.OnAwake();
+        _object.OnStart();
+        objectsList.Add(_object);
+    }
+
+    public void RemoveObject(BaseClass _object)
+    {
+        objectsList.Remove(_object);
+        Destroy(_object.gameObject);
     }
 }
