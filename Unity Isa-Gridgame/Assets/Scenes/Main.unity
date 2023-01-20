@@ -211,7 +211,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 14.54
+  orthographic size: 50
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -374,35 +374,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1090868012}
-  - component: {fileID: 1090868011}
+  - component: {fileID: 1090868013}
   m_Layer: 0
-  m_Name: GroundGrid
+  m_Name: GridManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1090868011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1090868010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b47a344f75b9591409c71ea8504af8dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tiles:
-  - {fileID: 7757692942267775185, guid: 7594427d7d13aa84d9d5a62deb3b4a61, type: 3}
-  - {fileID: 6393101336793718436, guid: f017f660a265f2a41abe7c29f0a36803, type: 3}
-  gridWidth: 100
-  gridHeight: 100
-  tileWidth: 2
-  tileHeight: 2
-  xStartLocation: 0
-  yStartLocation: 0
 --- !u!4 &1090868012
 Transform:
   m_ObjectHideFlags: 0
@@ -418,6 +397,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1090868013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090868010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b47a344f75b9591409c71ea8504af8dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SolidTiles:
+  - {fileID: 8698014896100936457, guid: 5ce0bcc10d23bfe4eb26859b2f7295b8, type: 3}
+  - {fileID: 5859440729592752629, guid: 98acc858af5eac34f9ffd07deba849c4, type: 3}
+  WaterTile: {fileID: 303739444666331599, guid: c3f11fc628bc7f6428a2350b840cfd83, type: 3}
+  GridWidth: 100
+  GridHeight: 50
+  xStartLocation: 0
+  yStartLocation: 0
 --- !u!1 &1383295768
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,6 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 723cc671324583c40a5e361da6e8a432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PhysicsUpdates: 3
 --- !u!114 &1383295772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,3 +475,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b7b6fc6628e1e4c8ca1284bbc92062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ScrollSpeed: 1
+  GroundGridGO: {fileID: 1090868010}

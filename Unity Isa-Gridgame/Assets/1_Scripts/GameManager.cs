@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    List<BaseClass> objectsList;
+    public int PhysicsUpdates;
+
+    private float physicsTimer;
+    private List<BaseClass> objectsList;
 
     private void Awake()
     {
@@ -21,7 +24,19 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (physicsTimer > (1 / PhysicsUpdates))
+        {
+            PhysicsUpdate();
+            physicsTimer = 0;
+        }
+        physicsTimer += Time.deltaTime;
+
         for (int i = 0; i < objectsList.Count; i++) { objectsList[i].OnUpdate(); }
+    }
+
+    private void PhysicsUpdate()
+    {
+        for (int i = 0; i < objectsList.Count; i++) { objectsList[i].OnPhysicsUpdate(); }
     }
 
     public void AddObject(BaseClass _object)
