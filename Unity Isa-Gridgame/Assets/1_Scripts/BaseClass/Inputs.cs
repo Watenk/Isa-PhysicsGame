@@ -6,14 +6,13 @@ using UnityEngine;
 public class Inputs : BaseClass
 {
     public float ScrollSpeed;
-    public GameObject GroundGridGO;
+    public GridManager GridManager;
 
-    private Grid groundGrid;
     private Vector2 referenceMousePos;
 
     public override void OnAwake()
     {
-        groundGrid = GroundGridGO.GetComponent<Grid>();
+        GridManager = FindObjectOfType<GridManager>();
     }
 
     public override void OnUpdate()
@@ -24,7 +23,7 @@ public class Inputs : BaseClass
             mousePos = Camera.main.ScreenToWorldPoint(mousePos);
             int xMousePos = (int)math.round(mousePos.x);
             int yMousePos = (int)math.round(mousePos.y);
-            //groundGrid.SetTile(xMousePos, -yMousePos, 1);
+            GridManager.waterGrid.SetTile(xMousePos, -yMousePos, 9);
         }
 
         if (Input.GetMouseButton(1))
