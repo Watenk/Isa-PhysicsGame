@@ -392,7 +392,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1090868010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -412,9 +412,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GridWidth: 100
-  GridHeight: 50
+  GridHeight: 100
   xStartLocation: 0
   yStartLocation: 0
+  minWater: 0
+  maxWater: 9
+  waterSpeed: 2
 --- !u!33 &1090868014
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -443,7 +446,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6a64337a7f061314ba087368face1fa1, type: 2}
+  - {fileID: 2100000, guid: 8a21c7e5be59fde40965687319fd1232, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -510,7 +513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 723cc671324583c40a5e361da6e8a432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PhysicsUpdates: 1
+  PhysicsFrameRate: 60
 --- !u!114 &1383295772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,4 +527,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ScrollSpeed: 1
-  GridManager: {fileID: 0}
+  GridManager: {fileID: 1090868013}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public int PhysicsUpdates;
+    public float PhysicsFrameRate; //FPS
 
     private float physicsTimer;
     private List<BaseClass> objectsList;
@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (physicsTimer > (1 / PhysicsUpdates))
+        if (physicsTimer > 1 / PhysicsFrameRate)
         {
             PhysicsUpdate();
             physicsTimer = 0;

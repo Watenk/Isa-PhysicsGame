@@ -52,14 +52,14 @@ public class Inputs : BaseClass
             Camera.main.transform.position = newPos;
         }
 
-        if (Input.mouseScrollDelta.y > 0f) //Scroll up
+        if (Input.mouseScrollDelta.y > 0f && Camera.main.orthographicSize > 1) //Scroll up
         {
-            Camera.main.orthographicSize -= ScrollSpeed;
+            Camera.main.orthographicSize -= ScrollSpeed + (GridManager.GridWidth + GridManager.GridHeight) * 0.01f;
         }
 
         if (Input.mouseScrollDelta.y < 0f) //Scroll down
         {
-            Camera.main.orthographicSize += ScrollSpeed;
+            Camera.main.orthographicSize += ScrollSpeed + (GridManager.GridWidth + GridManager.GridHeight) * 0.01f;
         }
     }
 }

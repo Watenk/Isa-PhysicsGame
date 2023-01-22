@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class IntGrid
 {
-    public int[,] gridArray;
-
+    private int[,] gridArray;
     private int gridWidth;
     private int gridHeight;
 
@@ -23,6 +22,15 @@ public class IntGrid
                 gridArray[x, y] = 0;
             }
         }
+    }
+
+    public int GetTile(int _x, int _y)
+    {
+        return gridArray[_x, _y];
+    }
+    public void ChangeTile(int _x, int _y, int value)
+    {
+        gridArray[_x, _y] = gridArray[_x, _y] + value;
     }
 
     public void SetTile(int _x, int _y, int _value)
