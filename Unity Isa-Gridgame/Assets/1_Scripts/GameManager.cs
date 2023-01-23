@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
     private void PhysicsUpdate()
     {
         for (int i = 0; i < objectsList.Count; i++) { objectsList[i].OnPhysicsUpdate(); }
-        gridManager.OnPhysicsUpdate();
     }
 
     public void AddObject(BaseClass _object)

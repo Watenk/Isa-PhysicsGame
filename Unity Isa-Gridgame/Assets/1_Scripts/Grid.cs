@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Grid : BaseClass
 {
+    //Update
+    public int UpdatesPerSecond; //Per Second
+    private int updateTimer;
+
     //Mesh
     private Mesh mesh;
     private Texture texture;
@@ -11,6 +15,7 @@ public class Grid : BaseClass
     //Grid
     protected int width;
     protected int height;
+    public int startValue;
     public int minValue;
     public int maxValue;
     private int[,] gridArray;
@@ -48,7 +53,7 @@ public class Grid : BaseClass
         {
             for (int x = 0; x < width; x++)
             {
-                gridArray[x, y] = 0;
+                gridArray[x, y] = startValue;
             }
         }
 
@@ -64,9 +69,18 @@ public class Grid : BaseClass
         triangles = new int[6 * quadAmount];
 
         //UV
-        //uv00 = new Vector2[quadAmount];
-        //uv11 = new Vector2[quadAmount];
-        GenerateUVs(10, 32);
+        GenerateUVs(maxValue + 1, 32);
+    }
+
+    public override void OnPhysicsUpdate()
+    {
+        if (updateTimer >= 60 / UpdatesPerSecond)
+        {
+            Draw();
+            updateTimer = 0;
+        }
+
+        updateTimer += 1;
     }
 
     public void Draw()
@@ -85,8 +99,9 @@ public class Grid : BaseClass
                     vertices[verticesAndUvIndex + 2] = new Vector3(x + 1, -y + 1);
                     vertices[verticesAndUvIndex + 3] = new Vector3(x + 1, -y);
 
-                    //Textures
+                    //Map values to uv
                     int currentTileValue = GetTile(x, y);
+
                     uv[verticesAndUvIndex + 1] = new Vector2(uv00[currentTileValue].x, uv00[currentTileValue].y);
                     uv[verticesAndUvIndex + 2] = new Vector2(uv11[currentTileValue].x, uv00[currentTileValue].y);
                     uv[verticesAndUvIndex + 0] = new Vector2(uv00[currentTileValue].x, uv11[currentTileValue].y);
@@ -124,6 +139,14 @@ public class Grid : BaseClass
         mesh.vertices = vertices;
         mesh.uv = uv;
         mesh.triangles = triangles;
+
+        //Set mesh bounds
+        Transform camTransform = Camera.main.transform;
+        float distToCenter = (Camera.main.farClipPlane - Camera.main.nearClipPlane) / 2.0f;
+        Vector3 center = camTransform.position + camTransform.forward * distToCenter;
+        float extremeBound = 500.0f;
+        MeshFilter meshFilter = GetComponent<MeshFilter>();
+        meshFilter.sharedMesh.bounds = new Bounds(center, new Vector3(1, 1) * extremeBound);
     }
 
     public void GenerateUVs(int amount, float tileSize)
@@ -135,8 +158,8 @@ public class Grid : BaseClass
 
         for (int i = 0; i < amount; i++)
         {
-            uv00[i] = new Vector2(tileWidthNormalized * i, 0);
-            uv11[i] = new Vector2((tileWidthNormalized * i) + tileWidthNormalized, 1);
+            uv00[i] = new Vector2(tileWidthNormalized * i + 0.001f, 0);
+            uv11[i] = new Vector2((tileWidthNormalized * i - 0.001f) + tileWidthNormalized, 1);
         }
     }
 

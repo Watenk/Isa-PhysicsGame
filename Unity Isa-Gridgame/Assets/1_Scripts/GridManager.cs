@@ -11,25 +11,35 @@ public class GridManager : MonoBehaviour
 
     //Grids
     private Grid[] grids;
+    public GameObject TemperatureGridGO;
+    [HideInInspector]
+    public Grid temperatureGrid;
     public GameObject DirtGridGO;
     [HideInInspector]
     public Grid dirtGrid;
     public GameObject WaterGridGO;
     [HideInInspector]
     public Grid waterGrid;
+    public GameObject LavaGridGO;
+    [HideInInspector]
+    public Grid lavaGrid;
 
     public void OnAwake()
     {
+        temperatureGrid = TemperatureGridGO.GetComponent<Grid>();
         dirtGrid = DirtGridGO.GetComponent<Grid>();
         waterGrid = WaterGridGO.GetComponent<FluidGrid>();
+        lavaGrid = LavaGridGO.GetComponent<FluidGrid>();
     }
 
     public void OnStart()
     {
         //Grids Index
-        grids = new Grid[2];
-        SetGridIndex(dirtGrid, 0);
-        SetGridIndex(waterGrid, 1);
+        grids = new Grid[4];
+        SetGridIndex(temperatureGrid, 0);
+        SetGridIndex(dirtGrid, 1);
+        SetGridIndex(waterGrid, 2);
+        SetGridIndex(lavaGrid, 3);
 
         //Generate world
         dirtGrid.SetTiles(0, GridHeight - 10, GridWidth, GridHeight, 1); //Ground
@@ -37,18 +47,15 @@ public class GridManager : MonoBehaviour
         dirtGrid.SetTiles(GridWidth - 1, 0, GridWidth, GridHeight, 1); //Right Wall
     }
 
-    public void OnPhysicsUpdate()
-    {
-        dirtGrid.Draw();
-        waterGrid.Draw();
-    }
-
-    public void MoveValue(Grid grid, int x, int y, int xMove, int yMove)
+    public void MoveValue(Grid grid, int x, int y, int xMove, int yMove, bool[,] skipTiles)
     {
         if (IsTileAvailible(grid, x + xMove, y + yMove) && grid.GetTile(x, y) >= 1)
         {
             grid.ChangeTile(x, y, -1);
             grid.ChangeTile(x + xMove, y + yMove, 1);
+
+            skipTiles[x, y] = true;
+            skipTiles[x + xMove, y + yMove] = true;
         }
     }
 
