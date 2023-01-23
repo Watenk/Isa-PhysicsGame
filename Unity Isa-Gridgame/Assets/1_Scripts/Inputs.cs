@@ -28,7 +28,11 @@ public class Inputs : BaseClass
 
         if (Input.GetMouseButton(1))
         {
-
+            Vector2 mousePos = Input.mousePosition;
+            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+            int xMousePos = (int)math.round(mousePos.x);
+            int yMousePos = (int)math.round(mousePos.y);
+            GridManager.dirtGrid.SetTile(xMousePos, -yMousePos, 1);
         }
 
         if (Input.GetMouseButtonDown(2))

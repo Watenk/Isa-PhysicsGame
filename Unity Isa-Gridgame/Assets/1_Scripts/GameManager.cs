@@ -5,21 +5,25 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public float PhysicsFrameRate; //FPS
-
     private float physicsTimer;
+
     private List<BaseClass> objectsList;
+    private GridManager gridManager;
 
     private void Awake()
     {
         objectsList = new List<BaseClass>();
         objectsList.AddRange(FindObjectsOfType<BaseClass>());
+        gridManager = FindObjectOfType<GridManager>();
 
         for (int i = 0; i < objectsList.Count; i++) { objectsList[i].OnAwake(); }
+        gridManager.OnAwake();
     }
 
     private void Start()
     {
         for (int i = 0; i < objectsList.Count; i++) { objectsList[i].OnStart(); }
+        gridManager.OnStart();
     }
 
     private void Update()
@@ -37,6 +41,7 @@ public class GameManager : MonoBehaviour
     private void PhysicsUpdate()
     {
         for (int i = 0; i < objectsList.Count; i++) { objectsList[i].OnPhysicsUpdate(); }
+        gridManager.OnPhysicsUpdate();
     }
 
     public void AddObject(BaseClass _object)
