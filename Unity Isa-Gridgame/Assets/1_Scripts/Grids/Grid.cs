@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Grid : BaseClass
 {
+    public Grids currentGrid;
+
     //Update
     public int UpdatesPerSecond; //Per Second
     private int updateTimer;
@@ -28,10 +30,6 @@ public class Grid : BaseClass
     //UV
     private Vector2[] uv00;
     private Vector2[] uv11;
-
-    //Index
-    [HideInInspector]
-    public int Index;
 
     //Reference
     protected GridManager gridManager;
@@ -141,8 +139,8 @@ public class Grid : BaseClass
         mesh.triangles = triangles;
 
         //Set mesh bounds
-        Transform camTransform = Camera.main.transform;
-        float distToCenter = (Camera.main.farClipPlane - Camera.main.nearClipPlane) / 2.0f;
+        Transform camTransform = UnityEngine.Camera.main.transform;
+        float distToCenter = (UnityEngine.Camera.main.farClipPlane - UnityEngine.Camera.main.nearClipPlane) / 2.0f;
         Vector3 center = camTransform.position + camTransform.forward * distToCenter;
         float extremeBound = 500.0f;
         MeshFilter meshFilter = GetComponent<MeshFilter>();
@@ -182,7 +180,7 @@ public class Grid : BaseClass
         }
         else
         {
-            Debug.Log("Selection Out of bounds");
+            Debug.Log("Selection Out of bounds: " + width + ", " + height + " : " + _x + ", " + _y);
         }
     }
 
@@ -200,7 +198,7 @@ public class Grid : BaseClass
         }
         else
         {
-            Debug.Log("Selection Out of bounds");
+            Debug.Log("Selection Out of bounds: " + width + ", " + height + " : " + _x + ", " + _y + " : " + _x2 + ", " + _y2);
         }
     }
 }

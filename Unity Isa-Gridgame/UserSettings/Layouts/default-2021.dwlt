@@ -97,7 +97,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 121}
   m_MaxSize: {x: 4000, y: 4021}
   vertical: 0
-  controlID: 88
+  controlID: 21
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -174,7 +174,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 8096}
   vertical: 0
-  controlID: 26
+  controlID: 125
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -293,8 +293,8 @@ MonoBehaviour:
     y: 0
     width: 1559
     height: 1299
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 18}
@@ -360,9 +360,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 746b0000
-      m_LastClickedID: 27508
-      m_ExpandedIDs: 2afbffff666b0000
+      m_SelectedIDs: 726b0000
+      m_LastClickedID: 27506
+      m_ExpandedIDs: 1881ffff14fbffff726b0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -378,7 +378,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 9}
+        m_ClientGUIView: {fileID: 11}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -468,13 +468,13 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/3_Materials
+    - Assets/1_Scripts
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/3_Materials
+  - Assets/1_Scripts
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\ivarn\Documents\Documents\GitHub\Isa-GridGame\Unity
     Isa-Gridgame
@@ -482,9 +482,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 306d0000
-    m_LastClickedID: 27952
-    m_ExpandedIDs: 00000000b46b000000ca9a3b
+    m_SelectedIDs: 4a6d0000
+    m_LastClickedID: 27978
+    m_ExpandedIDs: 00000000d46b00004a6d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -512,7 +512,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: a4720000
     m_LastClickedID: 29348
-    m_ExpandedIDs: 00000000b46b0000
+    m_ExpandedIDs: 00000000d46b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -940,9 +940,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 108.260025, y: -52.163643, z: 134.78262}
+    m_Target: {x: 119.84862, y: -117.24851, z: 275.18326}
     speed: 2
-    m_Value: {x: 108.260025, y: -52.163643, z: 134.78262}
+    m_Value: {x: 119.84862, y: -117.24851, z: 275.18326}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 2
@@ -989,13 +989,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.10105444, y: 0.35299683, z: -0.038383264, w: 0.92936164}
+    m_Target: {x: 0.1041381, y: 0.13531932, z: -0.014303166, w: 0.9852145}
     speed: 2
-    m_Value: {x: 0.101054184, y: 0.35299593, z: -0.038383167, w: 0.9293593}
+    m_Value: {x: 0.104137674, y: 0.13531877, z: -0.014303109, w: 0.9852105}
   m_Size:
-    m_Target: 139.39673
+    m_Target: 201.71147
     speed: 2
-    m_Value: 139.39673
+    m_Value: 201.71147
   m_Ortho:
     m_Target: 0
     speed: 2

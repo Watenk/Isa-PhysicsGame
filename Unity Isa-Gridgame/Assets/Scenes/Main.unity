@@ -123,6 +123,41 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &503642109
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 503642110}
+  m_Layer: 0
+  m_Name: Grids
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &503642110
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503642109}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 119.84862, y: -117.24851, z: 275.18326}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2005730815}
+  - {fileID: 1262532569}
+  - {fileID: 1731668151}
+  - {fileID: 1175427651}
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +167,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 519420032}
-  - component: {fileID: 519420033}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
@@ -240,20 +274,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &519420033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 439fb64ac858a034f8bc72a395adfbd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,7 +385,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1090868010
 GameObject:
@@ -393,11 +415,7 @@ Transform:
   m_LocalPosition: {x: -0.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1262532569}
-  - {fileID: 2005730815}
-  - {fileID: 1731668151}
-  - {fileID: 1175427651}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -415,14 +433,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GridWidth: 100
   GridHeight: 100
-  TemperatureGridGO: {fileID: 1262532568}
-  temperatureGrid: {fileID: 0}
-  DirtGridGO: {fileID: 2005730814}
-  dirtGrid: {fileID: 0}
-  WaterGridGO: {fileID: 1731668147}
-  waterGrid: {fileID: 0}
-  LavaGridGO: {fileID: 1175427647}
-  lavaGrid: {fileID: 0}
+  GridsGO: {fileID: 503642109}
+  grids: []
 --- !u!1 &1175427647
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,11 +516,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04265b115fdc1ab4386c69eab5c64a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentGrid: 3
+  UpdatesPerSecond: 20
   startValue: 0
   minValue: 0
   maxValue: 8
-  Index: 0
-  fluidUpdates: 10
 --- !u!4 &1175427651
 Transform:
   m_ObjectHideFlags: 0
@@ -516,12 +528,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1175427647}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -120.34862, y: 116.74851, z: -275.18326}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1090868012}
+  m_Father: {fileID: 503642110}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1262532568
@@ -537,7 +549,7 @@ GameObject:
   - component: {fileID: 1262532571}
   - component: {fileID: 1262532570}
   m_Layer: 0
-  m_Name: Temperature
+  m_Name: TemperatureGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -550,13 +562,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1262532568}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -120.34862, y: 116.74851, z: -275.18326}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1090868012}
-  m_RootOrder: 0
+  m_Father: {fileID: 503642110}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1262532570
 MeshRenderer:
@@ -565,7 +577,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1262532568}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -620,11 +632,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8506af68fe77c8a49b1935b27e28d186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentGrid: 0
+  UpdatesPerSecond: 60
   startValue: 293
   minValue: 0
   maxValue: 1000
-  Index: 0
-  temperatureUpdates: 60
 --- !u!1 &1383295768
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,12 +773,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731668147}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -120.34862, y: 116.74851, z: -275.18326}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1090868012}
+  m_Father: {fileID: 503642110}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1731668152
@@ -781,11 +793,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04265b115fdc1ab4386c69eab5c64a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentGrid: 2
+  UpdatesPerSecond: 60
   startValue: 0
   minValue: 0
   maxValue: 8
-  Index: 0
-  fluidUpdates: 60
 --- !u!1 &2005730814
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,13 +824,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2005730814}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -120.34862, y: 116.74851, z: -275.18326}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1090868012}
-  m_RootOrder: 1
+  m_Father: {fileID: 503642110}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &2005730816
 MeshRenderer:
@@ -882,7 +894,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ceccd202bbec0428477ac6eca106da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startValue: 0
+  currentGrid: 1
+  UpdatesPerSecond: 30
+  startValue: 1
   minValue: 0
   maxValue: 1
-  Index: 0

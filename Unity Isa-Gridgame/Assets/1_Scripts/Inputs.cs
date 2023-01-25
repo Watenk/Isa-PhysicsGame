@@ -17,13 +17,14 @@ public class Inputs : BaseClass
 
     public override void OnUpdate()
     {
+        //Mouse ---------------------------------------------------------
         if (Input.GetMouseButton(0))
         {
             Vector2 mousePos = Input.mousePosition;
             mousePos = Camera.main.ScreenToWorldPoint(mousePos);
             int xMousePos = (int)math.round(mousePos.x);
             int yMousePos = (int)math.round(mousePos.y);
-            GridManager.waterGrid.SetTile(xMousePos, -yMousePos, 1);
+            //GridManager.waterGrid.SetTile(xMousePos, -yMousePos, 1);
         }
 
         if (Input.GetMouseButton(1))
@@ -32,7 +33,7 @@ public class Inputs : BaseClass
             mousePos = Camera.main.ScreenToWorldPoint(mousePos);
             int xMousePos = (int)math.round(mousePos.x);
             int yMousePos = (int)math.round(mousePos.y);
-            GridManager.lavaGrid.SetTile(xMousePos, -yMousePos, 1);
+            //GridManager.lavaGrid.SetTile(xMousePos, -yMousePos, 1);
         }
 
         if (Input.GetMouseButtonDown(2))
@@ -64,6 +65,20 @@ public class Inputs : BaseClass
         if (Input.mouseScrollDelta.y < 0f) //Scroll down
         {
             Camera.main.orthographicSize += ScrollSpeed + (GridManager.GridWidth + GridManager.GridHeight) * 0.01f;
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------
+
+        if (Input.GetKeyDown("f1"))
+        {
+            if (GridManager.grids[(int)Grids.temperature].GetComponent<MeshRenderer>().enabled == false)
+            {
+                GridManager.grids[(int)Grids.temperature].GetComponent<MeshRenderer>().enabled = true;
+            }
+            else
+            {
+                GridManager.grids[(int)Grids.temperature].GetComponent<MeshRenderer>().enabled = false;
+            }
         }
     }
 }

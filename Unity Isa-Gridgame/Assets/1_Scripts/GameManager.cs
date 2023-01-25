@@ -4,30 +4,33 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public float PhysicsFrameRate; //FPS
+    public float PhysicsFrameRate; //UPS
     private float physicsTimer;
 
-    private List<BaseClass> objectsList;
-    private GridManager gridManager;
+    private List<BaseClass> baseClassList;
+    private List<BaseClassLate> baseClassLateList;
 
     private void Awake()
     {
-        objectsList = new List<BaseClass>();
-        objectsList.AddRange(FindObjectsOfType<BaseClass>());
-        gridManager = FindObjectOfType<GridManager>();
+        baseClassList = new List<BaseClass>();
+        baseClassLateList = new List<BaseClassLate>();
 
-        for (int i = 0; i < objectsList.Count; i++) { objectsList[i].OnAwake(); }
-        gridManager.OnAwake();
+        baseClassList.AddRange(FindObjectsOfType<BaseClass>());
+        baseClassLateList.AddRange(FindObjectsOfType<BaseClassLate>());
+
+        for (int i = 0; i < baseClassList.Count; i++) { baseClassList[i].OnAwake(); }
+        for (int i = 0; i < baseClassLateList.Count; i++) { baseClassLateList[i].OnAwake(); }
     }
 
     private void Start()
     {
-        for (int i = 0; i < objectsList.Count; i++) { objectsList[i].OnStart(); }
-        gridManager.OnStart();
+        for (int i = 0; i < baseClassList.Count; i++) { baseClassList[i].OnStart(); }
+        for (int i = 0; i < baseClassLateList.Count; i++) { baseClassLateList[i].OnStart(); }
     }
 
     private void Update()
     {
+        //Calc PhysicsUpdate()
         if (physicsTimer > 1 / PhysicsFrameRate)
         {
             PhysicsUpdate();
@@ -35,24 +38,26 @@ public class GameManager : MonoBehaviour
         }
         physicsTimer += Time.deltaTime;
 
-        for (int i = 0; i < objectsList.Count; i++) { objectsList[i].OnUpdate(); }
+        for (int i = 0; i < baseClassList.Count; i++) { baseClassList[i].OnUpdate(); }
+        for (int i = 0; i < baseClassLateList.Count; i++) { baseClassLateList[i].OnUpdate(); }
     }
 
     private void PhysicsUpdate()
     {
-        for (int i = 0; i < objectsList.Count; i++) { objectsList[i].OnPhysicsUpdate(); }
+        for (int i = 0; i < baseClassList.Count; i++) { baseClassList[i].OnPhysicsUpdate(); }
+        for (int i = 0; i < baseClassLateList.Count; i++) { baseClassLateList[i].OnPhysicsUpdate(); }
     }
 
     public void AddObject(BaseClass _object)
     {
         _object.OnAwake();
         _object.OnStart();
-        objectsList.Add(_object);
+        baseClassList.Add(_object);
     }
 
     public void RemoveObject(BaseClass _object)
     {
-        objectsList.Remove(_object);
+        baseClassList.Remove(_object);
         Destroy(_object.gameObject);
     }
 }
