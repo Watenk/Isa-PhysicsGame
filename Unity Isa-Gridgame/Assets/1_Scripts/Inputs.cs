@@ -71,13 +71,13 @@ public class Inputs : BaseClass
 
         if (Input.GetKeyDown("f1"))
         {
-            if (GridManager.grids[(int)Grids.temperature].GetComponent<MeshRenderer>().enabled == false)
+            if (GridManager.GetGrid(GridType.Temperature).GetComponent<MeshRenderer>().enabled == false)
             {
-                GridManager.grids[(int)Grids.temperature].GetComponent<MeshRenderer>().enabled = true;
+                GridManager.GetGrid(GridType.Temperature).GetComponent<MeshRenderer>().enabled = true;
             }
             else
             {
-                GridManager.grids[(int)Grids.temperature].GetComponent<MeshRenderer>().enabled = false;
+                GridManager.GetGrid(GridType.Temperature).GetComponent<MeshRenderer>().enabled = false;
             }
         }
     }

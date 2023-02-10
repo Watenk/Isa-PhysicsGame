@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 
@@ -9,28 +10,23 @@ public class GridManager : BaseClassLate
     public int GridWidth;
     public int GridHeight;
     public GameObject GridsGO;
-    public Grid[] grids;
-    private int gridsCount;
+    public List<Grid> grids;
     
     public override void OnStart()
     {
-        gridsCount = GridsGO.transform.childCount;
-        grids = new Grid[gridsCount];
-
-        //Add grids to gridsArray in order of Grids enum
-        for (int i = 0; i < gridsCount; i++)
-        {
-            for (int j = 0; j < gridsCount; j++)
-            {
-                if (i == (int)GridsGO.transform.GetChild(j).GetComponent<Grid>().currentGrid)
-                {
-                    grids[i] = GridsGO.transform.GetChild(j).GetComponent<Grid>();
-                    Debug.Log(grids[i]);
-                }
-            }
-        }
+        grids = new List<Grid>();
+        grids.AddRange(FindObjectsOfType<Grid>());
 
         GenerateWorld();
+    }
+    private void GenerateWorld()
+    {
+
+    }
+
+    private void UpdatePhysics()
+    {
+
     }
 
     public void MoveValue(Grid grid, int x, int y, int xMove, int yMove, bool[,] skipTiles)
@@ -45,14 +41,21 @@ public class GridManager : BaseClassLate
         }
     }
 
-    public void GenerateWorld()
+    public Grid GetGrid(GridType gridType)
     {
-
+        for (int i = 0; i < grids.Count; i++)
+        {
+            if (grids[i].GridType == gridType)
+            {
+                return grids[i];
+            }
+        }
+        return null;
     }
 
     private bool IsTileAvailible(Grid currentGrid, int _x, int _y)
     {
-        for (int i = 0; i < grids.Length; i++)
+        for (int i = 0; i < grids.Count; i++)
         {
             //Check if amount would fit in current grid
             if (currentGrid.GetTile(_x, _y) >= currentGrid.maxValue)
@@ -61,7 +64,7 @@ public class GridManager : BaseClassLate
             }
 
             //Check if space is free in other grids
-            if (i != (int)currentGrid.currentGrid) // skip currentGrid
+            if (i != (int)currentGrid.GridType) // skip currentGrid
             {
                 if (grids[i].GetTile(_x, _y) != 0)
                 {
@@ -70,11 +73,5 @@ public class GridManager : BaseClassLate
             }
         }
         return true;
-    }
-
-    private int CalcPercentage(float percentage)
-    {
-        percentage /= 100;
-        return (int)(Mathf.Round(GridHeight * percentage));
     }
 }

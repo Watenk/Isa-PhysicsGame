@@ -2,9 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GridType
+{
+    Temperature,
+    Dirt,
+    Water,
+    Lava
+}
+
 public class Grid : BaseClass
 {
-    public Grids currentGrid;
+    public GridType GridType;
 
     //Update
     public int UpdatesPerSecond; //Per Second
@@ -90,6 +98,7 @@ public class Grid : BaseClass
             {
                 if (GetTile(x, y) != 0)
                 {
+                    //Generate quads
                     //Vertices
                     int verticesAndUvIndex = i * 4;
                     vertices[verticesAndUvIndex + 0] = new Vector3(x, -y);
@@ -116,6 +125,7 @@ public class Grid : BaseClass
                 }
                 else
                 {
+                    //Generate no quads
                     //Vertices
                     int verticesAndUvIndex = i * 4;
                     vertices[verticesAndUvIndex + 0] = new Vector3(0, 0);
@@ -161,10 +171,14 @@ public class Grid : BaseClass
         }
     }
 
-
     public int GetTile(int _x, int _y)
     {
         return gridArray[_x, _y];
+    }
+
+    public int GetGridType(GridType gridType)
+    {
+        return (int)gridType;
     }
 
     public void ChangeTile(int _x, int _y, int value) 

@@ -151,8 +151,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2005730815}
   - {fileID: 1262532569}
+  - {fileID: 2005730815}
   - {fileID: 1731668151}
   - {fileID: 1175427651}
   m_Father: {fileID: 0}
@@ -516,7 +516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04265b115fdc1ab4386c69eab5c64a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGrid: 3
+  GridType: 3
   UpdatesPerSecond: 20
   startValue: 0
   minValue: 0
@@ -568,7 +568,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 503642110}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1262532570
 MeshRenderer:
@@ -577,7 +577,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1262532568}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -632,7 +632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8506af68fe77c8a49b1935b27e28d186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGrid: 0
+  GridType: 0
   UpdatesPerSecond: 60
   startValue: 293
   minValue: 0
@@ -793,7 +793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04265b115fdc1ab4386c69eab5c64a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGrid: 2
+  GridType: 2
   UpdatesPerSecond: 60
   startValue: 0
   minValue: 0
@@ -830,7 +830,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 503642110}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &2005730816
 MeshRenderer:
@@ -894,8 +894,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ceccd202bbec0428477ac6eca106da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGrid: 1
-  UpdatesPerSecond: 30
+  GridType: 1
+  UpdatesPerSecond: 1
   startValue: 1
   minValue: 0
   maxValue: 1
