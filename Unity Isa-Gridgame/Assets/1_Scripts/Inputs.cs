@@ -6,14 +6,8 @@ using UnityEngine;
 public class Inputs : BaseClass
 {
     public float ScrollSpeed;
-    public GridManager GridManager;
 
     private Vector2 referenceMousePos;
-
-    public override void OnAwake()
-    {
-        GridManager = FindObjectOfType<GridManager>();
-    }
 
     public override void OnUpdate()
     {
@@ -57,28 +51,28 @@ public class Inputs : BaseClass
             Camera.main.transform.position = newPos;
         }
 
-        if (Input.mouseScrollDelta.y > 0f && Camera.main.orthographicSize > 1) //Scroll up
-        {
-            Camera.main.orthographicSize -= ScrollSpeed + (GridManager.GridWidth + GridManager.GridHeight) * 0.01f;
-        }
+        //if (Input.mouseScrollDelta.y > 0f && Camera.main.orthographicSize > 1) //Scroll up
+        //{
+        //    Camera.main.orthographicSize -= ScrollSpeed + (GridManager.GridWidth + GridManager.GridHeight) * 0.01f;
+        //}
 
-        if (Input.mouseScrollDelta.y < 0f) //Scroll down
-        {
-            Camera.main.orthographicSize += ScrollSpeed + (GridManager.GridWidth + GridManager.GridHeight) * 0.01f;
-        }
+        //if (Input.mouseScrollDelta.y < 0f) //Scroll down
+        //{
+        //    Camera.main.orthographicSize += ScrollSpeed + (GridManager.GridWidth + GridManager.GridHeight) * 0.01f;
+        //}
 
         //-------------------------------------------------------------------------------------------------------------------
 
-        if (Input.GetKeyDown("f1"))
-        {
-            if (GridManager.GetGrid(GridType.Temperature).GetComponent<MeshRenderer>().enabled == false)
-            {
-                GridManager.GetGrid(GridType.Temperature).GetComponent<MeshRenderer>().enabled = true;
-            }
-            else
-            {
-                GridManager.GetGrid(GridType.Temperature).GetComponent<MeshRenderer>().enabled = false;
-            }
-        }
+        //if (Input.GetKeyDown("f1"))
+        //{
+        //    if (GridManager.GetGrid(GridType.Temperature).GetComponent<MeshRenderer>().enabled == false)
+        //    {
+        //        GridManager.GetGrid(GridType.Temperature).GetComponent<MeshRenderer>().enabled = true;
+        //    }
+        //    else
+        //    {
+        //        GridManager.GetGrid(GridType.Temperature).GetComponent<MeshRenderer>().enabled = false;
+        //    }
+        //}
     }
 }
