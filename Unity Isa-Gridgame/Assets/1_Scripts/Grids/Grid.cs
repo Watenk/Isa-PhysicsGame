@@ -23,10 +23,17 @@ public class Grid : BaseClass
 
     public void SetTile(int x, int y, ID id, int amount, int temperature) 
     { 
-        Tile currentTile = GetTile(x, y);
-        currentTile.SetID(id);
-        currentTile.SetAmount(amount);
-        currentTile.SetTemperature(temperature);
+        if (x >= 0 && x <= Width && y >= 0 && y <= Height)
+        {
+            Tile currentTile = GetTile(x, y);
+            currentTile.SetID(id);
+            currentTile.SetAmount(amount);
+            currentTile.SetTemperature(temperature);
+        }
+        else
+        {
+            Debug.Log("SetTile Out of Bounds: " + x + ", " + y);
+        }
     }
 
     public void SetTiles(int x1, int y1, int x2, int y2, ID id, int amount, int temperature)

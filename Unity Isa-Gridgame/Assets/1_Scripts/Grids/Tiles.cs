@@ -15,10 +15,17 @@ public enum ID
 
 public enum IDProperties
 {
+    isSolid,
+    isLiquid,
+    isGas,
     minValue,
     maxValue,
-    minTemp,
-    maxTemp,
+    freezeTemp,
+    freezeID,
+    meltTemp,
+    meltID,
+    evaporateTemp,
+    evaporateID,
 }
 
 public class Tiles : BaseClass
@@ -33,22 +40,37 @@ public class Tiles : BaseClass
                 //Dirt
                 ID.dirt, new Dictionary<IDProperties, int>
                 {
+                    { IDProperties.isSolid, 1 },
                     { IDProperties.minValue, 0 },
-                    { IDProperties.maxValue, 0 },
-                    { IDProperties.minTemp, 0 },
-                    { IDProperties.maxTemp, 0 }
+                    { IDProperties.maxValue, 1 },
+                    { IDProperties.meltTemp, 3000 },
+                    { IDProperties.meltID, (int)ID.lava },
                 }
             },
             {
                 //Stone
                 ID.stone, new Dictionary<IDProperties, int>
                 {
+                    { IDProperties.isSolid, 1 },
                     { IDProperties.minValue, 0 },
-                    { IDProperties.maxValue, 0 },
-                    { IDProperties.minTemp, 0 },
-                    { IDProperties.maxTemp, 0 }
+                    { IDProperties.maxValue, 1 },
+                    { IDProperties.meltTemp, 3000 },
+                    { IDProperties.meltID, (int)ID.lava },
                 }
             },
+            {
+                //Lava
+                ID.lava, new Dictionary<IDProperties, int>
+                {
+                    { IDProperties.isLiquid, 1 },
+                    { IDProperties.minValue, 0 },
+                    { IDProperties.maxValue, 9 },
+                    { IDProperties.evaporateTemp, 10000 },
+                    { IDProperties.freezeTemp, 2900 },
+                    { IDProperties.evaporateID, (int)ID.none },
+                    { IDProperties.freezeID, (int)ID.stone },
+                }
+            }
         };
     }
 

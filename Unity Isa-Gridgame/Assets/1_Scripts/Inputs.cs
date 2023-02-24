@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Inputs : BaseClass
 {
+    public Grid Grid;
     public float ScrollSpeed;
 
     private Vector2 referenceMousePos;
@@ -16,18 +17,18 @@ public class Inputs : BaseClass
         {
             Vector2 mousePos = Input.mousePosition;
             mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-            int xMousePos = (int)math.round(mousePos.x);
-            int yMousePos = (int)math.round(mousePos.y);
-            //GridManager.waterGrid.SetTile(xMousePos, -yMousePos, 1);
+            int xMousePosInt = (int)math.round(mousePos.x);
+            int yMousePosInt = (int)math.round(mousePos.y);
+            Grid.SetTile(xMousePosInt, -yMousePosInt, ID.dirt, 1, 20);
         }
 
         if (Input.GetMouseButton(1))
         {
             Vector2 mousePos = Input.mousePosition;
             mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-            int xMousePos = (int)math.round(mousePos.x);
-            int yMousePos = (int)math.round(mousePos.y);
-            //GridManager.lavaGrid.SetTile(xMousePos, -yMousePos, 1);
+            int xMousePosInt = (int)math.round(mousePos.x);
+            int yMousePosInt = (int)math.round(mousePos.y);
+            Grid.SetTile(xMousePosInt, -yMousePosInt, ID.stone, 1, 20);
         }
 
         if (Input.GetMouseButtonDown(2))
@@ -51,15 +52,15 @@ public class Inputs : BaseClass
             Camera.main.transform.position = newPos;
         }
 
-        //if (Input.mouseScrollDelta.y > 0f && Camera.main.orthographicSize > 1) //Scroll up
-        //{
-        //    Camera.main.orthographicSize -= ScrollSpeed + (GridManager.GridWidth + GridManager.GridHeight) * 0.01f;
-        //}
+        if (Input.mouseScrollDelta.y > 0f && Camera.main.orthographicSize > 1) //Scroll up
+        {
+            Camera.main.orthographicSize -= ScrollSpeed + (Grid.Width + Grid.Height) * 0.01f;
+        }
 
-        //if (Input.mouseScrollDelta.y < 0f) //Scroll down
-        //{
-        //    Camera.main.orthographicSize += ScrollSpeed + (GridManager.GridWidth + GridManager.GridHeight) * 0.01f;
-        //}
+        if (Input.mouseScrollDelta.y < 0f) //Scroll down
+        {
+            Camera.main.orthographicSize += ScrollSpeed + (Grid.Width + Grid.Height) * 0.01f;
+        }
 
         //-------------------------------------------------------------------------------------------------------------------
 
