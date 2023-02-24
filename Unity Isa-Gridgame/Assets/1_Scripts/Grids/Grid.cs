@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 public class Grid : BaseClass
 {
+    public TilesDictionary TilesDictionary;
     public int Width;
     public int Height;
     public ID WallTile;
     public ID FloorTile;
+
+    private TilesDictionary tiledict;
 
     private Tile[,] gridArray;
 
@@ -45,6 +49,32 @@ public class Grid : BaseClass
                 SetTile(x, y, id, amount, temperature);
             }
         }
+    }
+
+    public void MoveTile(Tile currentTile, int x, int y)
+    {
+        if (IsThereSpaceOnTile(currentTile, x, y))
+        {
+
+        }
+    }
+
+    public bool IsThereSpaceOnTile(Tile currentTile, int x, int y)
+    {
+        //Is the targetTile empty or the target and current tile are the same and is there room
+        ID targetID = GetTile(x, y).GetID();
+        if (targetID == ID.none)
+        {
+            return true;
+        }
+
+        ID currentID = currentTile.GetID();
+        int targetAmount = GetTile(x, y).GetAmount();
+        if (targetID == currentID && targetAmount + 1 <= TilesDictionary.GetValue(currentID, IDProperties.maxValue))
+        {
+            return true;
+        }
+        return false;
     }
 
     private void GenerateGrid()

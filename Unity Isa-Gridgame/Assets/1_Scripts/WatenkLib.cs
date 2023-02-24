@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Mathematics;
 
-public class WatenkLib : MonoBehaviour
+public class WatenkLib
 {
     public float PercentageToDecimal(float percentage)
     {
@@ -12,6 +13,12 @@ public class WatenkLib : MonoBehaviour
     public float DecimalToPercentage(float percentage)
     {
         return percentage *= 100;
+    }
+
+    public void ConvertMouseToInts(Vector2 mouseInput, out int mouseXInt, out int mouseYInt)
+    {
+        mouseXInt = (int)math.round(mouseInput.x);
+        mouseYInt = (int)math.round(mouseInput.y);
     }
 }
 

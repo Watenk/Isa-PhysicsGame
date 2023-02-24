@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class Inputs : BaseClass
@@ -9,26 +8,28 @@ public class Inputs : BaseClass
     public float ScrollSpeed;
 
     private Vector2 referenceMousePos;
+    private WatenkLib watenkLib;
+
+    public override void OnAwake()
+    {
+        watenkLib = new WatenkLib();
+    }
 
     public override void OnUpdate()
     {
         //Mouse ---------------------------------------------------------
         if (Input.GetMouseButton(0))
         {
-            Vector2 mousePos = Input.mousePosition;
-            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-            int xMousePosInt = (int)math.round(mousePos.x);
-            int yMousePosInt = (int)math.round(mousePos.y);
-            Grid.SetTile(xMousePosInt, -yMousePosInt, ID.dirt, 1, 20);
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            watenkLib.ConvertMouseToInts(mousePos, out int mouseXInt, out int mouseYInt);
+            Grid.SetTile(mouseXInt, -mouseYInt, ID.water, 1, 20);
         }
 
         if (Input.GetMouseButton(1))
         {
-            Vector2 mousePos = Input.mousePosition;
-            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-            int xMousePosInt = (int)math.round(mousePos.x);
-            int yMousePosInt = (int)math.round(mousePos.y);
-            Grid.SetTile(xMousePosInt, -yMousePosInt, ID.stone, 1, 20);
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            watenkLib.ConvertMouseToInts(mousePos, out int mouseXInt, out int mouseYInt);
+            Grid.SetTile(mouseXInt, -mouseYInt, ID.stone, 1, 20);
         }
 
         if (Input.GetMouseButtonDown(2))
