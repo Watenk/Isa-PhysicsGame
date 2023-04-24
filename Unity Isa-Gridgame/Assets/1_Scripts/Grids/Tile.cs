@@ -2,34 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ID
+{
+    none,
+    dirt,
+    grass,
+    water,
+    stone,
+}
+
 public class Tile
 {
     protected ID id;
-    protected bool isSolid;
-    protected bool isLiquid;
-    protected bool isGas;
+    protected Vector2Int pos;
     protected int amount;
-    protected int speed;
-    protected int temperature;
-    protected int thermalConductivity;
+    protected int temp;
 
-    public Tile(ID id, int amount, int temperature)
+    public Tile(ID id, Vector2Int pos)
     {
         this.id = id;
-        this.amount = amount;
-        this.temperature = temperature;
+        this.pos = pos;
     }
 
-    public ID GetID() { return id; }
+    //ID
+    public ID GetID() 
+    { 
+        return id; 
+    }
     public void SetID(ID id) 
     { 
-        this.id = id;
-        //Change speed, amount, thermalconductivity, isGas, etc...
+        this.id = id; 
     }
-    public int GetAmount() { return amount; }
-    public void SetAmount(int amount) { this.amount = amount; }
-    public void ChangeAmount(int value) { amount += value; }
-    public int GetTemperature() { return temperature; }
-    public void SetTemperature(int temperature) { this.temperature = temperature; }
-    public int GetThermalConductivity() { return thermalConductivity; }
+
+    //Pos
+    public Vector2Int GetPos() 
+    {  
+        return pos; 
+    }
+
+    //Amount
+    public int GetAmount() 
+    { 
+        return amount; 
+    }
+    public void SetAmount(int amount) 
+    { 
+        this.amount = amount; 
+    }
+
+    //Temp
+    public int GetTemp() 
+    { 
+        return temp; 
+    }
+    public void SetTemp(int amount) 
+    { 
+        temp = amount; 
+    }
 }

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridRenderer : BaseClassLate
+public class TileGridRenderer : BaseClass
 {
-    public Grid Grid;
+    public TileGrid Grid;
     public int TileAmount;
     public float TexturePixelWidth;
     public float UVFloatErrorMargin;
@@ -28,19 +28,56 @@ public class GridRenderer : BaseClassLate
         GenerateUVs(TileAmount, TexturePixelWidth);
     }
 
-    public override void OnPhysicsUpdate()
+    public override void OnUpdate()
+    {
+        SetMeshBoundToCam();
+    }
+
+    public override void OnUPS()
     {
         Draw();
     }
 
-    private void Draw()
+    public void Draw()
+    {
+        GenerateQuads();
+        UpdateMesh();
+    }
+
+    private void GenerateMesh()
+    {
+        mesh = new Mesh();
+        mesh = GetComponent<MeshFilter>().mesh;
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+    }
+
+    private void UpdateMesh()
+    {
+        mesh.vertices = vertices;
+        mesh.uv = uv;
+        mesh.triangles = triangles;
+
+        SetMeshBoundToCam();
+    }
+
+    private void SetMeshBoundToCam()
+    {
+        Transform camTransform = Camera.main.transform;
+        float distToCenter = (Camera.main.farClipPlane - Camera.main.nearClipPlane) / 2.0f;
+        Vector3 center = camTransform.position + camTransform.forward * distToCenter;
+        float extremeBound = 500.0f;
+        MeshFilter meshFilter = GetComponent<MeshFilter>();
+        meshFilter.sharedMesh.bounds = new Bounds(center, new Vector3(1, 1) * extremeBound);
+    }
+
+    private void GenerateQuads()
     {
         int i = 0;
         for (int y = 0; y < Grid.Height; y++)
         {
             for (int x = 0; x < Grid.Width; x++)
             {
-                int currentTileID = (int)Grid.GetTile(x, y).GetID();
+                int currentTileID = (int)Grid.GetTile(new Vector2Int(x, y)).GetID();
 
                 if (currentTileID != (int)ID.none)
                 {
@@ -67,57 +104,9 @@ public class GridRenderer : BaseClassLate
                     uv[verticesAndUvIndex + 0] = new Vector2(uv00[currentTileID].x, uv11[currentTileID].y);
                     uv[verticesAndUvIndex + 3] = new Vector2(uv11[currentTileID].x, uv11[currentTileID].y);
                 }
-                else
-                {
-                    ////Generate no quads
-                    ////Vertices
-                    //int verticesAndUvIndex = i * 4;
-                    //vertices[verticesAndUvIndex + 0] = new Vector3(0, 0);
-                    //vertices[verticesAndUvIndex + 1] = new Vector3(0, 0);
-                    //vertices[verticesAndUvIndex + 2] = new Vector3(0, 0);
-                    //vertices[verticesAndUvIndex + 3] = new Vector3(0, 0);
-
-                    ////Map values to uv
-                    //uv[verticesAndUvIndex + 1] = new Vector2(0, 0);
-                    //uv[verticesAndUvIndex + 2] = new Vector2(0, 0);
-                    //uv[verticesAndUvIndex + 0] = new Vector2(0, 0);
-                    //uv[verticesAndUvIndex + 3] = new Vector2(0, 0);
-
-                    //int trianglesIndex = i * 6;
-                    //triangles[trianglesIndex + 0] = 0;
-                    //triangles[trianglesIndex + 1] = 0;
-                    //triangles[trianglesIndex + 2] = 0;
-                    //triangles[trianglesIndex + 3] = 0;
-                    //triangles[trianglesIndex + 4] = 0;
-                    //triangles[trianglesIndex + 5] = 0;
-                }
                 i++;
             }
         }
-        UpdateMesh();
-    }
-
-    private void GenerateMesh()
-    {
-        mesh = new Mesh();
-        GetComponent<MeshFilter>().mesh = mesh;
-        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
-    }
-
-    private void UpdateMesh()
-    {
-        //Update Mesh
-        mesh.vertices = vertices;
-        mesh.uv = uv;
-        mesh.triangles = triangles;
-
-        //SetMeshBoundToCam
-        Transform camTransform = Camera.main.transform;
-        float distToCenter = (Camera.main.farClipPlane - Camera.main.nearClipPlane) / 2.0f;
-        Vector3 center = camTransform.position + camTransform.forward * distToCenter;
-        float extremeBound = 500.0f;
-        MeshFilter meshFilter = GetComponent<MeshFilter>();
-        meshFilter.sharedMesh.bounds = new Bounds(center, new Vector3(1, 1) * extremeBound);
     }
 
     private void GenerateQuadCollections()
