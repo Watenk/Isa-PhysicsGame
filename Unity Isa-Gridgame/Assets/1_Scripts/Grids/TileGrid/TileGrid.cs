@@ -65,24 +65,37 @@ public class TileGrid : BaseClass
         }
     }
 
-    public bool MoveTile(Tile currentTile, Tile targetTile, int maxAmount, int amount)
+    public bool MoveTile(Tile currentTile, Tile targetTile, int maxAmount, int speed)
     {
         if (targetTile.id == ID.none || currentTile.id == targetTile.id && targetTile.amount < maxAmount)
         {
             //Calc MoveAmount
             int maxMoveAmount = maxAmount - targetTile.amount;
             int moveAmount;
-            if (amount > maxMoveAmount)
+
+            if (speed > maxMoveAmount)
             {
                 moveAmount = maxMoveAmount;
             }
             else
             {
-                moveAmount = amount;
+                moveAmount = speed;
+            }
+
+            if (moveAmount > currentTile.amount)
+            {
+                moveAmount = currentTile.amount;
             }
 
             //Set TargetTile
-            SetTile(targetTile.pos, currentTile.id, moveAmount, currentTile.temp);
+            if (targetTile.id == ID.none)
+            {
+                SetTile(targetTile.pos, currentTile.id, targetTile.amount + moveAmount, currentTile.temp);
+            }
+            else
+            {
+                SetTile(targetTile.pos, currentTile.id, targetTile.amount + moveAmount, (currentTile.temp + targetTile.temp) / 2);
+            }
 
             //Set CurrentTile
             if (currentTile.amount - moveAmount <= 0)

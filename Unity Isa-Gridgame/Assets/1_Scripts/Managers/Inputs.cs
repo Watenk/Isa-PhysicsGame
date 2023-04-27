@@ -85,7 +85,12 @@ public class Inputs : BaseClass
     {
         if (inputManager.LeftMouse == true)
         {
-            mainGrid.SetTile(inputManager.mousePosGrid, ID.dirt, 1, 20);
+            mainGrid.SetTile(inputManager.mousePosGrid, ID.dirt, 9, 20000);
+        }
+
+        if (inputManager.RightMouse == true)
+        {
+            mainGrid.SetTile(inputManager.mousePosGrid, ID.grass, 9, 60000);
         }
     }
 }

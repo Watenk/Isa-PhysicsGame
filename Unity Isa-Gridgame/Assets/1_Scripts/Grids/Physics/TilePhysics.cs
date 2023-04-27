@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class TilePhysics : BaseClass
 {
-    private Dictionary<ID, SolidPhysics> solidPhysicTiles = new Dictionary<ID, SolidPhysics>();
-    public HashSet<Vector2Int> skipTiles = new HashSet<Vector2Int>();
+    private Dictionary<ID, PhysicsTile> PhysicTiles = new Dictionary<ID, PhysicsTile>();
+    private HashSet<Vector2Int> skipTiles = new HashSet<Vector2Int>();
+
+    private Tile currentTile;
+    private PhysicsTile currentPhysics;
 
     private MainGrid mainGrid;
 
@@ -17,9 +20,9 @@ public class TilePhysics : BaseClass
     public override void OnStart()
     {
         //Solid tiles dictionary
-        solidPhysicTiles.Add(ID.grass, new SolidPhysics(ID.grass, 20, true, 9, 9, 50, ID.dirt));
-        solidPhysicTiles.Add(ID.dirt, new SolidPhysics(ID.dirt, 20, true, 9, 9, 2000, ID.none));
-        solidPhysicTiles.Add(ID.stone, new SolidPhysics(ID.stone, 20, false, 9, 9, 5000, ID.none));
+        PhysicTiles.Add(ID.grass, new PhysicsTile(ID.grass, 20, true, 5, 9, 50000, ID.dirt, 5));
+        PhysicTiles.Add(ID.dirt, new PhysicsTile(ID.dirt, 20, true, 5, 9, 2000000, ID.none, 5));
+        PhysicTiles.Add(ID.stone, new PhysicsTile(ID.stone, 20, false, 9, 9, 5000000, ID.none, 1));
     }
 
     public override void OnUPS()
@@ -30,17 +33,16 @@ public class TilePhysics : BaseClass
     private void Physics()
     {
         //Check entire grid (probably inefficient)
-        for (int y = 0; y < mainGrid.Height; y++)
+        for (int y = mainGrid.Height - 1; y >= 1 ; y--)
         {
-            for (int x = 0; x < mainGrid.Width; x++)
+            for (int x = 1; x < mainGrid.Width - 1; x++)
             {
-                //Solid Physics
                 //Check if should apply physics to this tile
-                Tile currentTile = mainGrid.GetTile(new Vector2Int(x, y));
-                if (!skipTiles.Contains(currentTile.pos) && solidPhysicTiles.ContainsKey(currentTile.id))
+                currentTile = mainGrid.GetTile(new Vector2Int(x, y));
+                if (!skipTiles.Contains(currentTile.pos) && PhysicTiles.ContainsKey(currentTile.id))
                 {
                     //Check if should update tile
-                    solidPhysicTiles.TryGetValue(currentTile.id, out SolidPhysics currentPhysics);
+                    PhysicTiles.TryGetValue(currentTile.id, out currentPhysics);
                     if (currentPhysics.currentUpdate < currentPhysics.updateSpeed)
                     {
                         //Increase currentUpdate and no physics
@@ -48,26 +50,72 @@ public class TilePhysics : BaseClass
                     }
                     else
                     {
-                        //Do Physics
-                        //Get Neighbours
+                        //Physics
+                        Tile upTile = mainGrid.GetTile(new Vector2Int(x, y - 1));
                         Tile downTile = mainGrid.GetTile(new Vector2Int(x, y + 1));
+                        Tile rightTile = mainGrid.GetTile(new Vector2Int(x + 1, y));
+                        Tile leftTile = mainGrid.GetTile(new Vector2Int(x - 1, y));
 
-                        //Gravity
-                        if (currentPhysics.hasGravity && downTile != null)
+                        TempPhysics(upTile, downTile, rightTile, leftTile);
+
+                        if (currentPhysics.hasGravity)
                         {
-                            if (mainGrid.MoveTile(currentTile, downTile, currentPhysics.maxAmount, currentPhysics.maxAmount))
-                            {
-                                skipTiles.Add(downTile.pos);
-                            }
+                            GravityPhysics(downTile);
                         }
                     }
                 }
-
-                //Liquid physics
-
-
             }
         }
         skipTiles.Clear();
+    }
+
+    private void TempPhysics(Tile upTile, Tile downTile, Tile rightTile, Tile leftTile)
+    {
+        if (upTile.id != ID.none)
+        {
+            CalcTemp(upTile);
+        }
+
+        if (downTile.id != ID.none)
+        {
+            CalcTemp(downTile);
+        }
+
+        if (rightTile.id != ID.none)
+        {
+            CalcTemp(rightTile);
+        }
+
+        if (leftTile.id != ID.none)
+        {
+            CalcTemp(leftTile);
+        }
+
+        if (currentTile.temp >= currentPhysics.maxTemp)
+        {
+            mainGrid.SetTile(currentTile.pos, currentPhysics.ifMaxTemp, currentTile.amount, currentTile.temp);
+        }
+    }
+
+    private void CalcTemp(Tile targetTile)
+    {
+        if (currentTile.temp > targetTile.temp)
+        {
+            currentTile.temp -= currentPhysics.thermalConductivity;
+            targetTile.temp += currentPhysics.thermalConductivity;
+        }
+        else
+        {
+            currentTile.temp += currentPhysics.thermalConductivity;
+            targetTile.temp -= currentPhysics.thermalConductivity;
+        }
+    }
+
+    private void GravityPhysics(Tile downTile)
+    {
+        if (mainGrid.MoveTile(currentTile, downTile, currentPhysics.maxAmount, currentPhysics.speed))
+        {
+            skipTiles.Add(downTile.pos);
+        }
     }
 }

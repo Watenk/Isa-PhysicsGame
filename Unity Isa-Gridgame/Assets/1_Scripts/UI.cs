@@ -60,7 +60,8 @@ public class UI : BaseClass
             Tile currentTile = mainGrid.GetTile(inputManager.mousePosGrid);
             MouseID.text = currentTile.id.ToString() + " : ID";
             MouseAmount.text = currentTile.amount.ToString() + " : Amount";
-            MouseTemp.text = currentTile.temp.ToString() + " : Temp";
+            string temp = currentTile.temp.ToString().PadLeft(6);
+            MouseTemp.text = temp.Insert(temp.Length - 3, ".") + " : Temp";
         }
     }
 }
