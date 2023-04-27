@@ -16,10 +16,12 @@ public class TileGrid : BaseClass
     {
         gridArray = new Tile[Width, Height];
 
-        FillGridWithTiles();
+        InitializeGrid();
         gridRenderer.Draw();
         PrintGridSize();
     }
+
+    //---------------------------------------------------------------------
 
     public Tile GetTile(Vector2Int pos) 
     {
@@ -35,9 +37,9 @@ public class TileGrid : BaseClass
         if (IsInGridBounds(pos))
         {
             Tile currentTile = GetTile(pos);
-            currentTile.SetID(id);
-            currentTile.SetAmount(amount);
-            currentTile.SetTemp(temp);
+            currentTile.id = id;
+            currentTile.amount = amount;
+            currentTile.temp = temp;
         }
         else
         {
@@ -47,81 +49,81 @@ public class TileGrid : BaseClass
 
     public void SetTiles(Vector2Int pos1, Vector2Int pos2, ID id, int amount, int temp)
     {
-        for (int y = pos1.y; y < pos2.y; y++)
-        {
-            for (int x = pos1.x; x < pos2.x; x++)
-            {
-                SetTile(new Vector2Int(x, y), id, amount, temp);
-            }
-        }
-    }
-
-    public bool IsTileAvailible(Vector2Int pos)
-    {
-        //ID currentTileID = GetTile(pos).GetID();
-        
-        return true;
-    }
-
-    public bool AreTilesAvailible(Vector2Int pos1, Vector2Int pos2)
-    {
         if (IsInGridBounds(pos1) && IsInGridBounds(pos2))
         {
             for (int y = pos1.y; y < pos2.y; y++)
             {
                 for (int x = pos1.x; x < pos2.x; x++)
                 {
-                    if (IsTileAvailible(new Vector2Int(x, y)) == false)
-                    {
-                        return false;
-                    }
+                    SetTile(new Vector2Int(x, y), id, amount, temp);
                 }
+            }
+        }
+        else
+        {
+            Debug.Log("SetTiles Out of Bounds: " + pos1.x + ", " + pos1.y + " & " + pos2.x + ", " + pos2.y);
+        }
+    }
+
+    public bool MoveTile(Tile currentTile, Tile targetTile, int maxAmount, int amount)
+    {
+        if (targetTile.id == ID.none || currentTile.id == targetTile.id && targetTile.amount < maxAmount)
+        {
+            //Calc MoveAmount
+            int maxMoveAmount = maxAmount - targetTile.amount;
+            int moveAmount;
+            if (amount > maxMoveAmount)
+            {
+                moveAmount = maxMoveAmount;
+            }
+            else
+            {
+                moveAmount = amount;
+            }
+
+            //Set TargetTile
+            SetTile(targetTile.pos, currentTile.id, moveAmount, currentTile.temp);
+
+            //Set CurrentTile
+            if (currentTile.amount - moveAmount <= 0)
+            {
+                ClearTile(currentTile.pos);
+            }
+            else
+            {
+                currentTile.amount -= moveAmount;
             }
             return true;
         }
         return false;
     }
 
-    public Tile FindRandomFreeSpace(Vector2Int pos1, Vector2Int pos2)
+    public void ClearTile(Vector2Int pos)
     {
-        if (IsInGridBounds(pos1) && IsInGridBounds(pos2))
+        if (IsInGridBounds(pos))
         {
-            int retrys = 0;
-            retry:
-            int x = Random.Range(pos1.x, pos2.x);
-            int y = Random.Range(pos1.y, pos2.y);
-
-            if (IsTileAvailible(new Vector2Int(x, y)))
-            {
-                return GetTile(new Vector2Int(x, y));
-            }
-
-            retrys++;
-            if (retrys > 100)
-            {
-                return null;
-            }
-            goto retry;
+            SetTile(pos, ID.none, 0, 0);
         }
-        return null;
     }
 
     public bool IsInGridBounds(Vector2Int pos)
     {
-        if (pos.x >= 0 && pos.x < Width && pos.y >= 0 && pos.y < Height)
+        if (pos.x >= 0 && pos.x <= Width - 1 && pos.y >= 0 && pos.y <= Height - 1)
         {
             return true;
         }
         return false;
     }
 
-    private void FillGridWithTiles()
+    //-----------------------------------------------------------
+
+    private void InitializeGrid()
     {
         for (int y = 0; y < Height; y++)
         {
             for (int x = 0; x < Width; x++)
             {
-                gridArray[x, y] = new Tile(ID.none, new Vector2Int(x, y));
+                gridArray[x, y] = new Tile(ID.none, new Vector2Int(x, y), 0, 0);
             }
         }
     }

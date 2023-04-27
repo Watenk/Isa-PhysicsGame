@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 public class TilePhysics : BaseClass
 {
-    public Dictionary<ID, SolidPhysicsTile> SolidPhysicTiles = new Dictionary<ID, SolidPhysicsTile>();
+    private Dictionary<ID, SolidPhysics> solidPhysicTiles = new Dictionary<ID, SolidPhysics>();
+    public HashSet<Vector2Int> skipTiles = new HashSet<Vector2Int>();
 
     private MainGrid mainGrid;
 
@@ -16,29 +16,58 @@ public class TilePhysics : BaseClass
 
     public override void OnStart()
     {
-        //Solid
-        SolidPhysicTiles.Add(ID.grass, new SolidPhysicsTile(ID.grass, 20, 50, ID.dirt));
-        SolidPhysicTiles.Add(ID.dirt, new SolidPhysicsTile(ID.dirt, 20, 2000, ID.none));
-        SolidPhysicTiles.Add(ID.stone, new SolidPhysicsTile(ID.stone, 20, 5000, ID.none));
+        //Solid tiles dictionary
+        solidPhysicTiles.Add(ID.grass, new SolidPhysics(ID.grass, 20, true, 9, 9, 50, ID.dirt));
+        solidPhysicTiles.Add(ID.dirt, new SolidPhysics(ID.dirt, 20, true, 9, 9, 2000, ID.none));
+        solidPhysicTiles.Add(ID.stone, new SolidPhysics(ID.stone, 20, false, 9, 9, 5000, ID.none));
     }
 
     public override void OnUPS()
     {
-        SolidPhysics();
+        Physics();
     }
 
-    private void SolidPhysics()
+    private void Physics()
     {
+        //Check entire grid (probably inefficient)
         for (int y = 0; y < mainGrid.Height; y++)
         {
             for (int x = 0; x < mainGrid.Width; x++)
             {
+                //Solid Physics
+                //Check if should apply physics to this tile
                 Tile currentTile = mainGrid.GetTile(new Vector2Int(x, y));
-                //if (solidPhysicsIDs.Contains(currentTile.GetID()))
-                //{
+                if (!skipTiles.Contains(currentTile.pos) && solidPhysicTiles.ContainsKey(currentTile.id))
+                {
+                    //Check if should update tile
+                    solidPhysicTiles.TryGetValue(currentTile.id, out SolidPhysics currentPhysics);
+                    if (currentPhysics.currentUpdate < currentPhysics.updateSpeed)
+                    {
+                        //Increase currentUpdate and no physics
+                        currentPhysics.currentUpdate += 1;
+                    }
+                    else
+                    {
+                        //Do Physics
+                        //Get Neighbours
+                        Tile downTile = mainGrid.GetTile(new Vector2Int(x, y + 1));
 
-                //}
+                        //Gravity
+                        if (currentPhysics.hasGravity && downTile != null)
+                        {
+                            if (mainGrid.MoveTile(currentTile, downTile, currentPhysics.maxAmount, currentPhysics.maxAmount))
+                            {
+                                skipTiles.Add(downTile.pos);
+                            }
+                        }
+                    }
+                }
+
+                //Liquid physics
+
+
             }
         }
+        skipTiles.Clear();
     }
 }

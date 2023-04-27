@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class InputManager : BaseClass
 {
+    //keyboard
     public bool W;
     public bool D;
     public bool S;
     public bool A;
     public bool F;
+    public bool space;
+    //Mouse
+    public Vector2 mousePos;
+    public Vector2Int mousePosGrid;
     public bool LeftMouse;
     public bool RightMouse;
     public bool MiddleMouse;
@@ -26,6 +31,11 @@ public class InputManager : BaseClass
         S = Input.GetKeyDown(KeyCode.S);
         A = Input.GetKeyDown(KeyCode.A);
         F = Input.GetKeyDown(KeyCode.F);
+        space = Input.GetKeyDown(KeyCode.Space);
+
+        mousePos = Input.mousePosition;
+        Vector2 tempMousePos = Camera.main.ScreenToWorldPoint(mousePos);
+        mousePosGrid = new Vector2Int(Mathf.RoundToInt(tempMousePos.x), Mathf.RoundToInt(-tempMousePos.y));
         LeftMouse = Input.GetKey(KeyCode.Mouse0);
         RightMouse = Input.GetKey(KeyCode.Mouse1);
         MiddleMouse = Input.GetKey(KeyCode.Mouse2);

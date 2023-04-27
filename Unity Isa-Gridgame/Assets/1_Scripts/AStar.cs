@@ -63,7 +63,7 @@ public class AStar
 
     private void CalcSurroundingTiles(Tile currentTile, Tile targetTile, Tile startTile, Dictionary<Tile, int> fCost, List<Tile> pendingTiles, TileGrid grid, List<ID> allowedTiles, Dictionary<Tile, Tile> parent)
     {
-        Vector2Int currentTilePos = currentTile.GetPos();
+        Vector2Int currentTilePos = currentTile.pos;
         //up
         Tile upTile = grid.GetTile(new Vector2Int(currentTilePos.x, currentTilePos.y - 1));
         CalcTileCost(upTile, currentTile, targetTile, startTile, fCost, pendingTiles, allowedTiles, parent);
@@ -86,11 +86,11 @@ public class AStar
     private void CalcTileCost(Tile currentTile, Tile parentTile, Tile targetTile, Tile startTile, Dictionary<Tile, int> fCost, List<Tile> pendingTiles, List<ID> allowedTiles, Dictionary<Tile, Tile> parent)
     {
         if (currentTile == null) return;
-        if (!fCost.ContainsKey(currentTile) && allowedTiles.Contains(currentTile.GetID())) //if value is not calculated & isWalkable
+        if (!fCost.ContainsKey(currentTile) && allowedTiles.Contains(currentTile.id)) //if value is not calculated & isWalkable
         {
-            Vector2Int currentTilePos = currentTile.GetPos();
-            Vector2Int startTilePos = startTile.GetPos();
-            Vector2Int targetTilePos = targetTile.GetPos();
+            Vector2Int currentTilePos = currentTile.pos;
+            Vector2Int startTilePos = startTile.pos;
+            Vector2Int targetTilePos = targetTile.pos;
 
             //CalcGCost
             int xDifferenceGCost = Mathf.Abs(currentTilePos.x - startTilePos.x);

@@ -13,11 +13,13 @@ public class Inputs : BaseClass
 
     //references
     private InputManager inputManager;
+    private GameManager gameManager;
     private MainGrid mainGrid;
 
     public override void OnAwake()
     {
         inputManager = FindObjectOfType<InputManager>();
+        gameManager = FindObjectOfType<GameManager>();
         mainGrid = FindObjectOfType<MainGrid>();
     }
 
@@ -25,6 +27,7 @@ public class Inputs : BaseClass
     {
         CameraInput();
         BuildInput();
+        KeyBoard();
     }
 
     private void CameraInput()
@@ -63,14 +66,26 @@ public class Inputs : BaseClass
         }
     }
 
+    private void KeyBoard()
+    {
+        if (inputManager.space == true)
+        {
+            if (gameManager.UPS == 20)
+            {
+                gameManager.UPS = 0;
+            }
+            else
+            {
+                gameManager.UPS = 20;
+            }
+        }
+    }
+
     private void BuildInput()
     {
         if (inputManager.LeftMouse == true)
         {
-            Vector2 mousePos = Input.mousePosition;
-            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-            Vector2Int pos = new Vector2Int(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(-mousePos.y));
-            mainGrid.SetTile(pos, ID.water, 1, 20);
+            mainGrid.SetTile(inputManager.mousePosGrid, ID.dirt, 1, 20);
         }
     }
 }

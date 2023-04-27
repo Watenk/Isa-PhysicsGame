@@ -9,54 +9,21 @@ public enum ID
     grass,
     water,
     stone,
+    black,
 }
 
 public class Tile
 {
-    protected ID id;
-    protected Vector2Int pos;
-    protected int amount;
-    protected int temp;
+    public ID id { get; set; }
+    public Vector2Int pos { get; set; }
+    public int amount { get; set; }
+    public int temp { get; set; }
 
-    public Tile(ID id, Vector2Int pos)
+    public Tile(ID id, Vector2Int pos, int amount, int temp)
     {
         this.id = id;
         this.pos = pos;
-    }
-
-    //ID
-    public ID GetID() 
-    { 
-        return id; 
-    }
-    public void SetID(ID id) 
-    { 
-        this.id = id; 
-    }
-
-    //Pos
-    public Vector2Int GetPos() 
-    {  
-        return pos; 
-    }
-
-    //Amount
-    public int GetAmount() 
-    { 
-        return amount; 
-    }
-    public void SetAmount(int amount) 
-    { 
-        this.amount = amount; 
-    }
-
-    //Temp
-    public int GetTemp() 
-    { 
-        return temp; 
-    }
-    public void SetTemp(int amount) 
-    { 
-        temp = amount; 
+        this.amount = amount;
+        this.temp = temp;
     }
 }

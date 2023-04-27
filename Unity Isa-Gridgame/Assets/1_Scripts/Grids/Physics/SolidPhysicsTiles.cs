@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SolidPhysicsTile
+public class SolidPhysics
 {
-    protected ID id;
-    protected int updateSpeed;
-    protected int maxTemp;
-    protected ID ifMaxTemp;
+    public ID id { get; }
+    public int updateSpeed { get; set; }
+    public int currentUpdate { get; set; }
+    public bool hasGravity { get; set; }
+    public int speed { get; set; }
+    public int maxAmount { get; set; }
+    public int maxTemp { get; set; }
+    public ID ifMaxTemp { get; set; }
 
-    public SolidPhysicsTile(ID id, int updateSpeed, int maxTemp, ID ifMaxTemp)
+    public SolidPhysics(ID id, int updateSpeed, bool hasGravity, int speed, int maxAmount, int maxTemp, ID ifMaxTemp)
     {
         this.id = id;
         this.updateSpeed = updateSpeed;
+        this.hasGravity = hasGravity;
+        this.speed = speed;
+        this.maxAmount = maxAmount;
         this.maxTemp = maxTemp;
         this.ifMaxTemp = ifMaxTemp;
     }
