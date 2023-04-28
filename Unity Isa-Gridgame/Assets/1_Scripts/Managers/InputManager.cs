@@ -11,6 +11,9 @@ public class InputManager : BaseClass
     public bool A;
     public bool F;
     public bool space;
+    public bool F1;
+    public bool F2;
+    public bool F3;
     //Mouse
     public Vector2 mousePos;
     public Vector2Int mousePosGrid;
@@ -26,13 +29,18 @@ public class InputManager : BaseClass
 
     void Update()
     {
+        //Keyboard
         W = Input.GetKeyDown(KeyCode.W);
         D = Input.GetKeyDown(KeyCode.D);
         S = Input.GetKeyDown(KeyCode.S);
         A = Input.GetKeyDown(KeyCode.A);
         F = Input.GetKeyDown(KeyCode.F);
         space = Input.GetKeyDown(KeyCode.Space);
+        F1 = Input.GetKeyDown(KeyCode.F1);
+        F2 = Input.GetKeyDown(KeyCode.F2);
+        F3 = Input.GetKeyDown(KeyCode.F3);
 
+        //Mouse
         mousePos = Input.mousePosition;
         Vector2 tempMousePos = Camera.main.ScreenToWorldPoint(mousePos);
         mousePosGrid = new Vector2Int(Mathf.RoundToInt(tempMousePos.x), Mathf.RoundToInt(-tempMousePos.y));

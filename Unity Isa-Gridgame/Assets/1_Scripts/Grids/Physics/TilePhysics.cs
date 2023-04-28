@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TilePhysics : BaseClass
 {
+    public int TempDifferenceMagnitude; //The higher the less temp difference makes a difference
+
     private Dictionary<ID, PhysicsTile> PhysicTiles = new Dictionary<ID, PhysicsTile>();
     private HashSet<Vector2Int> skipTiles = new HashSet<Vector2Int>();
 
@@ -71,43 +73,81 @@ public class TilePhysics : BaseClass
 
     private void TempPhysics(Tile upTile, Tile downTile, Tile rightTile, Tile leftTile)
     {
+        //UpTile
         if (upTile.id != ID.none)
         {
-            CalcTemp(upTile);
+            PhysicTiles.TryGetValue(upTile.id, out PhysicsTile upTilePhysics);
+            if (upTilePhysics != null)
+            {
+                CalcTemp(upTile, upTilePhysics);
+            }
         }
 
+        //DownTile
         if (downTile.id != ID.none)
         {
-            CalcTemp(downTile);
+            PhysicTiles.TryGetValue(downTile.id, out PhysicsTile downTilePhysics);
+            if (downTilePhysics != null)
+            {
+                CalcTemp(downTile, downTilePhysics);
+            }
         }
 
+        //RightTile
         if (rightTile.id != ID.none)
         {
-            CalcTemp(rightTile);
+            PhysicTiles.TryGetValue(rightTile.id, out PhysicsTile rightTilePhysics);
+            if (rightTilePhysics != null)
+            {
+                CalcTemp(rightTile, rightTilePhysics);
+            }
         }
 
+        //LeftTile
         if (leftTile.id != ID.none)
         {
-            CalcTemp(leftTile);
+            PhysicTiles.TryGetValue(leftTile.id, out PhysicsTile leftTilePhysics);
+            if (leftTilePhysics != null)
+            {
+                CalcTemp(leftTile, leftTilePhysics);
+            }
         }
 
+        //MaxTemp
         if (currentTile.temp >= currentPhysics.maxTemp)
         {
             mainGrid.SetTile(currentTile.pos, currentPhysics.ifMaxTemp, currentTile.amount, currentTile.temp);
         }
     }
 
-    private void CalcTemp(Tile targetTile)
+    private void CalcTemp(Tile targetTile, PhysicsTile targetPhysics)
     {
+        int tempDifference = Mathf.Abs(currentTile.temp - targetTile.temp) / TempDifferenceMagnitude;
         if (currentTile.temp > targetTile.temp)
         {
-            currentTile.temp -= currentPhysics.thermalConductivity;
-            targetTile.temp += currentPhysics.thermalConductivity;
+            if (currentPhysics.thermalConductivity > targetPhysics.thermalConductivity)
+            {
+                currentTile.temp -= targetPhysics.thermalConductivity + tempDifference;
+                targetTile.temp += targetPhysics.thermalConductivity + tempDifference;
+            }
+            else
+            {
+                currentTile.temp -= currentPhysics.thermalConductivity + tempDifference;
+                targetTile.temp += currentPhysics.thermalConductivity + tempDifference;
+            }
         }
         else
         {
-            currentTile.temp += currentPhysics.thermalConductivity;
-            targetTile.temp -= currentPhysics.thermalConductivity;
+            if (currentPhysics.thermalConductivity > targetPhysics.thermalConductivity)
+            {
+                currentTile.temp += targetPhysics.thermalConductivity + tempDifference;
+                targetTile.temp -= targetPhysics.thermalConductivity + tempDifference;
+            }
+            else
+            {
+                currentTile.temp += currentPhysics.thermalConductivity + tempDifference;
+                targetTile.temp -= currentPhysics.thermalConductivity + tempDifference;
+            }
         }
     }
 

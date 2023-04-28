@@ -15,12 +15,15 @@ public class Inputs : BaseClass
     private InputManager inputManager;
     private GameManager gameManager;
     private MainGrid mainGrid;
+    private GameObject tempRenderer;
 
     public override void OnAwake()
     {
         inputManager = FindObjectOfType<InputManager>();
         gameManager = FindObjectOfType<GameManager>();
         mainGrid = FindObjectOfType<MainGrid>();
+        tempRenderer = FindObjectOfType<TempRenderer>().gameObject;
+        tempRenderer.SetActive(false);
     }
 
     public override void OnUpdate()
@@ -28,6 +31,7 @@ public class Inputs : BaseClass
         CameraInput();
         BuildInput();
         KeyBoard();
+        Overlays();
     }
 
     private void CameraInput()
@@ -63,6 +67,22 @@ public class Inputs : BaseClass
         if (inputManager.ScrollMouseDelta < 0f && Camera.main.orthographicSize < maxCamSize && Input.GetMouseButton(2) == false)
         {
             Camera.main.orthographicSize += Camera.main.orthographicSize * ScrollSpeed * 0.01f;
+        }
+    }
+
+    private void Overlays()
+    {
+        //TempOverlay
+        if (inputManager.F1 == true)
+        {
+            if (tempRenderer.activeSelf == false)
+            {
+                tempRenderer.SetActive(true);
+            }
+            else
+            {
+                tempRenderer.SetActive(false);
+            }
         }
     }
 
