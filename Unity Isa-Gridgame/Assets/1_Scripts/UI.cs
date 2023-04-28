@@ -20,13 +20,17 @@ public class UI : BaseClass
     private float[] frames;
     private int frameCounter;
 
+    public Text currentElement;
+
     private MainGrid mainGrid;
     private InputManager inputManager;
+    private Inputs inputs;
 
     public override void OnAwake()
     {
         mainGrid = FindObjectOfType<MainGrid>();
         inputManager = FindObjectOfType<InputManager>();
+        inputs = FindObjectOfType<Inputs>();
     }
 
     public override void OnStart()
@@ -54,6 +58,7 @@ public class UI : BaseClass
 
         //UI
         FrameRate.text = "FPS: " + (1.0f / Time.deltaTime).ToString();
+        currentElement.text = "CurrentElement: " + inputs.currentElement.ToString();
 
         if (mainGrid.IsInGridBounds(inputManager.mousePosGrid))
         {

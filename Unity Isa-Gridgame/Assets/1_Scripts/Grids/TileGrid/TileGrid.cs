@@ -65,7 +65,7 @@ public class TileGrid : BaseClass
         }
     }
 
-    public bool MoveTile(Tile currentTile, Tile targetTile, int maxAmount, int speed)
+    public void MoveTile(Tile currentTile, Tile targetTile, int maxAmount, int speed)
     {
         if (targetTile.id == ID.none || currentTile.id == targetTile.id && targetTile.amount < maxAmount)
         {
@@ -106,9 +106,18 @@ public class TileGrid : BaseClass
             {
                 currentTile.amount -= moveAmount;
             }
-            return true;
         }
-        return false;
+    }
+
+    public void SwitchTiles(Tile tile1, Tile tile2)
+    {
+        Vector2Int tile1Pos = tile1.pos;
+        ID tile2id = tile2.id;
+        int tile2Amount = tile2.amount;
+        int tile2Temp = tile2.temp;
+
+        SetTile(tile2.pos, tile1.id, tile1.amount, tile1.temp);
+        SetTile(tile1Pos, tile2id, tile2Amount, tile2Temp);
     }
 
     public void ClearTile(Vector2Int pos)

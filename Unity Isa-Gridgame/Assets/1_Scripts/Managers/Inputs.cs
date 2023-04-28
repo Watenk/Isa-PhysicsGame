@@ -9,6 +9,8 @@ public class Inputs : BaseClass
     public int minCamSize;
     public int maxCamSize;
 
+    public ID currentElement;
+
     private Vector2 referenceMousePos;
 
     //references
@@ -16,6 +18,7 @@ public class Inputs : BaseClass
     private GameManager gameManager;
     private MainGrid mainGrid;
     private GameObject tempRenderer;
+    private GameObject amountRenderer;
 
     public override void OnAwake()
     {
@@ -24,14 +27,17 @@ public class Inputs : BaseClass
         mainGrid = FindObjectOfType<MainGrid>();
         tempRenderer = FindObjectOfType<TempRenderer>().gameObject;
         tempRenderer.SetActive(false);
+        amountRenderer = FindObjectOfType<AmountRenderer>().gameObject;
+        amountRenderer.SetActive(false);
     }
 
     public override void OnUpdate()
     {
         CameraInput();
-        BuildInput();
-        KeyBoard();
+        PlaceTiles();
+        GameRules();
         Overlays();
+        ElementSelection();
     }
 
     private void CameraInput()
@@ -70,6 +76,50 @@ public class Inputs : BaseClass
         }
     }
 
+    private void ElementSelection()
+    {
+        if (inputManager.one == true)
+        {
+            currentElement = ID.dirt;
+        }
+        if (inputManager.two == true)
+        {
+            currentElement = ID.grass;
+        }
+        if (inputManager.three == true)
+        {
+            currentElement = ID.water;
+        }
+        if (inputManager.four == true)
+        {
+            currentElement = ID.stone;
+        }
+        if (inputManager.five == true)
+        {
+            currentElement = ID.ice;
+        }
+        if (inputManager.six == true)
+        {
+            currentElement = ID.carbonDioxite;
+        }
+        if (inputManager.seven == true)
+        {
+            currentElement = ID.oxygen;
+        }
+        if (inputManager.eight == true)
+        {
+            currentElement = ID.steam;
+        }
+    }
+
+    private void PlaceTiles()
+    {
+        if (inputManager.LeftMouse == true)
+        {
+            mainGrid.SetTile(inputManager.mousePosGrid, currentElement, 9, 20000);
+        }
+    }
+
     private void Overlays()
     {
         //TempOverlay
@@ -84,33 +134,33 @@ public class Inputs : BaseClass
                 tempRenderer.SetActive(false);
             }
         }
+
+        //AmountOverlay
+        if (inputManager.F2 == true)
+        {
+            if (amountRenderer.activeSelf == false)
+            {
+                amountRenderer.SetActive(true);
+            }
+            else
+            {
+                amountRenderer.SetActive(false);
+            }
+        }
     }
 
-    private void KeyBoard()
+    private void GameRules()
     {
         if (inputManager.space == true)
         {
-            if (gameManager.UPS == 20)
+            if (gameManager.UPS == 60)
             {
                 gameManager.UPS = 0;
             }
             else
             {
-                gameManager.UPS = 20;
+                gameManager.UPS = 60;
             }
-        }
-    }
-
-    private void BuildInput()
-    {
-        if (inputManager.LeftMouse == true)
-        {
-            mainGrid.SetTile(inputManager.mousePosGrid, ID.dirt, 9, 20000);
-        }
-
-        if (inputManager.RightMouse == true)
-        {
-            mainGrid.SetTile(inputManager.mousePosGrid, ID.grass, 9, 60000);
         }
     }
 }

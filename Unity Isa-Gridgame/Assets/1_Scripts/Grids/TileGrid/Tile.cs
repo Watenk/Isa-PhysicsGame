@@ -10,6 +10,10 @@ public enum ID
     water,
     stone,
     black,
+    ice,
+    carbonDioxite,
+    oxygen,
+    steam,
 }
 
 public class Tile
@@ -18,6 +22,7 @@ public class Tile
     public Vector2Int pos { get; set; }
     public int amount { get; set; }
     public int temp { get; set; }
+    public int currentUpdate { get; set; }
 
     public Tile(ID id, Vector2Int pos, int amount, int temp)
     {
