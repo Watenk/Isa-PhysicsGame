@@ -9,6 +9,8 @@ public class TileGridRenderer : BaseClass
     public float TexturePixelWidth;
     public float UVFloatErrorMargin;
 
+    private int updateSpeedTimer;
+
     //References
     private Mesh mesh;
 
@@ -26,11 +28,6 @@ public class TileGridRenderer : BaseClass
         GenerateMesh();
         GenerateQuadCollections();
         GenerateUVs(TileAmount, TexturePixelWidth);
-    }
-
-    public override void OnUpdate()
-    {
-        SetMeshBoundToCam();
     }
 
     public override void OnUPS()

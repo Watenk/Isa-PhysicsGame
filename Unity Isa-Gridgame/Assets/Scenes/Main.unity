@@ -558,7 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AutoStart: 1
-  GeneralPhysicsSpeed: 0
+  GeneralPhysicsSpeed: 1
   TempDifferenceMagnitude: 1000
 --- !u!1 &404239607
 GameObject:
@@ -1427,6 +1427,7 @@ MonoBehaviour:
   A: 0
   F: 0
   space: 0
+  tab: 0
   one: 0
   two: 0
   three: 0
@@ -1435,6 +1436,8 @@ MonoBehaviour:
   six: 0
   seven: 0
   eight: 0
+  nein: 0
+  zero: 0
   F1: 0
   F2: 0
   F3: 0
@@ -1465,6 +1468,8 @@ MonoBehaviour:
   ScrollSpeed: 5
   minCamSize: 2
   maxCamSize: 100
+  TempPowerAmount: 1000
+  currentPower: 0
   currentElement: 1
 --- !u!1 &1563766675
 GameObject:

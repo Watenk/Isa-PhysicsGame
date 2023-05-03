@@ -11,6 +11,7 @@ public class InputManager : BaseClass
     public bool A;
     public bool F;
     public bool space;
+    public bool tab;
     public bool one;
     public bool two;
     public bool three;
@@ -19,6 +20,8 @@ public class InputManager : BaseClass
     public bool six;
     public bool seven;
     public bool eight;
+    public bool nein;
+    public bool zero;
     public bool F1;
     public bool F2;
     public bool F3;
@@ -51,7 +54,10 @@ public class InputManager : BaseClass
         six = Input.GetKeyDown(KeyCode.Alpha6);
         seven = Input.GetKeyDown(KeyCode.Alpha7);
         eight = Input.GetKeyDown(KeyCode.Alpha8);
+        nein = Input.GetKeyDown(KeyCode.Alpha9);
+        zero = Input.GetKeyDown(KeyCode.Alpha0);
         space = Input.GetKeyDown(KeyCode.Space);
+        tab = Input.GetKeyDown(KeyCode.Tab);
         F1 = Input.GetKeyDown(KeyCode.F1);
         F2 = Input.GetKeyDown(KeyCode.F2);
         F3 = Input.GetKeyDown(KeyCode.F3);

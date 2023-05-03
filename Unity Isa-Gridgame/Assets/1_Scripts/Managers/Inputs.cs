@@ -9,6 +9,9 @@ public class Inputs : BaseClass
     public int minCamSize;
     public int maxCamSize;
 
+    public int TempPowerAmount;
+
+    public int currentPower;
     public ID currentElement;
 
     private Vector2 referenceMousePos;
@@ -33,50 +36,102 @@ public class Inputs : BaseClass
 
     public override void OnUpdate()
     {
-        CameraInput();
-        PlaceTiles();
-        GameRules();
+        Camera();
         Overlays();
-        ElementSelection();
+        Powers();
     }
 
-    private void CameraInput()
+    private void Camera()
     {
+        //Mouse
         if (inputManager.MiddleMouseDown == true)
         {
             referenceMousePos = Input.mousePosition;
-            referenceMousePos = Camera.main.ScreenToWorldPoint(referenceMousePos);
+            referenceMousePos = UnityEngine.Camera.main.ScreenToWorldPoint(referenceMousePos);
         }
 
         if (inputManager.MiddleMouse == true)
         {
             //Get mousepos and calc newPos
             Vector2 currentMousePos = Input.mousePosition;
-            currentMousePos = Camera.main.ScreenToWorldPoint(currentMousePos);
+            currentMousePos = UnityEngine.Camera.main.ScreenToWorldPoint(currentMousePos);
             float xDifference = currentMousePos.x - referenceMousePos.x;
             float yDifference = currentMousePos.y - referenceMousePos.y;
-            float newXPos = Camera.main.transform.position.x - xDifference;
-            float newYPos = Camera.main.transform.position.y - yDifference;
+            float newXPos = UnityEngine.Camera.main.transform.position.x - xDifference;
+            float newYPos = UnityEngine.Camera.main.transform.position.y - yDifference;
 
             //Set newPos
             Vector3 newPos = new Vector3(newXPos, newYPos, -10);
-            Camera.main.transform.position = newPos;
+            UnityEngine.Camera.main.transform.position = newPos;
         }
 
         //Scroll up
-        if (inputManager.ScrollMouseDelta > 0f && Camera.main.orthographicSize > minCamSize && Input.GetMouseButton(2) == false)
+        if (inputManager.ScrollMouseDelta > 0f && UnityEngine.Camera.main.orthographicSize > minCamSize && Input.GetMouseButton(2) == false)
         {
-            Camera.main.orthographicSize -= Camera.main.orthographicSize * ScrollSpeed * 0.01f;
+            UnityEngine.Camera.main.orthographicSize -= UnityEngine.Camera.main.orthographicSize * ScrollSpeed * 0.01f;
         }
 
         //Scroll down
-        if (inputManager.ScrollMouseDelta < 0f && Camera.main.orthographicSize < maxCamSize && Input.GetMouseButton(2) == false)
+        if (inputManager.ScrollMouseDelta < 0f && UnityEngine.Camera.main.orthographicSize < maxCamSize && Input.GetMouseButton(2) == false)
         {
-            Camera.main.orthographicSize += Camera.main.orthographicSize * ScrollSpeed * 0.01f;
+            UnityEngine.Camera.main.orthographicSize += UnityEngine.Camera.main.orthographicSize * ScrollSpeed * 0.01f;
         }
     }
 
-    private void ElementSelection()
+    private void Powers()
+    {
+        //UPS
+        if (inputManager.space == true)
+        {
+            if (gameManager.UPS == 60)
+            {
+                gameManager.UPS = 0;
+            }
+            else
+            {
+                gameManager.UPS = 60;
+            }
+        }
+
+        if (inputManager.tab == true)
+        {
+            if (currentPower == 0)
+            {
+                currentPower = 1;
+            }
+            else
+            {
+                currentPower = 0;
+            }
+        }
+
+        if (currentPower == 0)
+        {
+            PlacePower();
+        }
+
+        if (currentPower == 1)
+        {
+            TempPower();
+        }
+    }
+
+    private void TempPower()
+    {
+        if (inputManager.LeftMouse == true)
+        {
+            Tile currentTile = mainGrid.GetTile(inputManager.mousePosGrid);
+            mainGrid.SetTile(currentTile.pos, currentTile.id, currentTile.amount, currentTile.temp + TempPowerAmount);
+        }
+
+        if (inputManager.RightMouse == true)
+        {
+            Tile currentTile = mainGrid.GetTile(inputManager.mousePosGrid);
+            mainGrid.SetTile(currentTile.pos, currentTile.id, currentTile.amount, currentTile.temp - TempPowerAmount);
+        }
+    }
+
+    private void PlacePower()
     {
         if (inputManager.one == true)
         {
@@ -110,10 +165,7 @@ public class Inputs : BaseClass
         {
             currentElement = ID.steam;
         }
-    }
 
-    private void PlaceTiles()
-    {
         if (inputManager.LeftMouse == true)
         {
             mainGrid.SetTile(inputManager.mousePosGrid, currentElement, 9, 20000);
@@ -149,18 +201,4 @@ public class Inputs : BaseClass
         }
     }
 
-    private void GameRules()
-    {
-        if (inputManager.space == true)
-        {
-            if (gameManager.UPS == 60)
-            {
-                gameManager.UPS = 0;
-            }
-            else
-            {
-                gameManager.UPS = 60;
-            }
-        }
-    }
 }

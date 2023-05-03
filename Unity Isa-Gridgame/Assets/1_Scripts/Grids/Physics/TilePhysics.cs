@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Need to make replaceTile function
+
 public class TilePhysics : BaseClass
 {
     public int GeneralPhysicsSpeed;
@@ -9,7 +11,7 @@ public class TilePhysics : BaseClass
     public int TempDifferenceMagnitude; //The higher the less temp difference makes a difference
 
     private Dictionary<ID, PhysicsTile> PhysicTiles = new Dictionary<ID, PhysicsTile>();
-    private HashSet<Vector2Int> skipTiles = new HashSet<Vector2Int>();
+    //private HashSet<Vector2Int> skipTiles = new HashSet<Vector2Int>();
 
     private Tile currentTile;
     private PhysicsTile currentPhysics;
@@ -25,15 +27,15 @@ public class TilePhysics : BaseClass
     {
         //Tile Physics properties (probably shouldn't hardcode)
 
-        //                  ID                       ID                    solid  liquid  gas  UPS  Grav  Max SP Th  -----MinTemp-------     -------MaxTemp--------
-        PhysicTiles.Add(ID.dirt, new PhysicsTile(ID.dirt,                   true, false, false,  1, true,  9, 5,  5, true,  25000, ID.grass, true,  5000000, ID.carbonDioxite));
-        PhysicTiles.Add(ID.grass, new PhysicsTile(ID.grass,                 true, false, false,  1, true,  9, 5,  5, false,     0, ID.none,  true,    50000, ID.dirt));
-        PhysicTiles.Add(ID.water, new PhysicsTile(ID.water,                 false, true, false,  1, true,  9, 9, 10, true,  -1000, ID.ice,   true,   100000, ID.steam));
-        PhysicTiles.Add(ID.stone, new PhysicsTile(ID.stone,                 true, false, false, 20, false, 9, 9,  1, false,     0, ID.none,  true, 10000000, ID.carbonDioxite));
-        PhysicTiles.Add(ID.ice, new PhysicsTile(ID.ice,                     true, false, false, 20, false, 9, 1, 10, false,     0, ID.none,  true,     1000, ID.water));
-        PhysicTiles.Add(ID.carbonDioxite, new PhysicsTile(ID.carbonDioxite, false, false, true, 20, false, 9, 1, 15, false,     0, ID.none,  false,       0, ID.none));
-        PhysicTiles.Add(ID.oxygen, new PhysicsTile(ID.oxygen,               false, false, true, 20, false, 9, 1,  6, false,     0, ID.none,  false,       0, ID.none));
-        PhysicTiles.Add(ID.steam, new PhysicsTile(ID.steam,                 false, false, true, 20, false, 9, 1, 10, true,  96000, ID.water, false,       0, ID.none));
+        //                  ID                       ID                    solid  liquid  gas  UPS  Grav  Max SP  Th  -----MinTemp-------     -------MaxTemp--------
+        PhysicTiles.Add(ID.dirt, new PhysicsTile(ID.dirt,                   true, false, false,  1, true,  9, 5,  10, true,  25000, ID.grass, true,  5000000, ID.carbonDioxite));
+        PhysicTiles.Add(ID.grass, new PhysicsTile(ID.grass,                 true, false, false,  1, true,  9, 5,  10, false,     0, ID.none,  true,    50000, ID.dirt));
+        PhysicTiles.Add(ID.water, new PhysicsTile(ID.water,                 false, true, false,  1, true,  9, 9,  10, true,  -1000, ID.ice,   true,   100000, ID.steam));
+        PhysicTiles.Add(ID.stone, new PhysicsTile(ID.stone,                 true, false, false, 20, false, 9, 9,   2, false,     0, ID.none,  true, 10000000, ID.carbonDioxite));
+        PhysicTiles.Add(ID.ice, new PhysicsTile(ID.ice,                     true, false, false, 20, false, 9, 1,  10, false,     0, ID.none,  true,     1000, ID.water));
+        PhysicTiles.Add(ID.carbonDioxite, new PhysicsTile(ID.carbonDioxite, false, false, true, 10, false, 9, 1, 200, false,     0, ID.none,  false,       0, ID.none));
+        PhysicTiles.Add(ID.oxygen, new PhysicsTile(ID.oxygen,               false, false, true, 10, false, 9, 1, 100, false,     0, ID.none,  false,       0, ID.none));
+        PhysicTiles.Add(ID.steam, new PhysicsTile(ID.steam,                 false, false, true, 10, false, 9, 1,  10, true,  96000, ID.water, false,       0, ID.none));
     }
 
     public override void OnUPS()
@@ -50,7 +52,7 @@ public class TilePhysics : BaseClass
             {
                 currentTile = mainGrid.GetTile(new Vector2Int(x, y));
 
-                if (!skipTiles.Contains(currentTile.pos) && PhysicTiles.ContainsKey(currentTile.id))
+                if (PhysicTiles.ContainsKey(currentTile.id))
                 {
                     PhysicTiles.TryGetValue(currentTile.id, out currentPhysics);
 
@@ -76,7 +78,6 @@ public class TilePhysics : BaseClass
                 }
             }
         }
-        skipTiles.Clear();
     }
 
     //-----------------------------------------------------------------------
@@ -102,10 +103,8 @@ public class TilePhysics : BaseClass
         Tile downTile = mainGrid.GetTile(new Vector2Int(x, y + 1));
         if (currentPhysics.hasGravity)
         {
-            GravityPhysics(downTile);
+            Gravity(downTile);
         }
-
-        //Solid
 
         //Liquid
         if (currentPhysics.isLiquid)
@@ -122,9 +121,57 @@ public class TilePhysics : BaseClass
 
     //-------------------------------------------------------------------------
 
-    private void PlantPhysics()
+    private void MoveTilePhysics(Tile currentTile, Tile targetTile)
     {
+        PhysicTiles.TryGetValue(targetTile.id, out PhysicsTile targetTilePhysics);
+        if (targetTilePhysics != null)
+        {
+            //If current is Solid
+            if (currentPhysics.isSolid)
+            {
+                if (targetTilePhysics.isSolid)
+                {
+                    mainGrid.MoveTile(currentTile, targetTile, currentPhysics.maxAmount, currentPhysics.speed); //Just try to moveTile
+                }
+                else
+                {
+                    mainGrid.SwitchTiles(currentTile, targetTile);
+                }
+            }
 
+            //If current is Liquid
+            if (currentPhysics.isLiquid)
+            {
+                if (targetTilePhysics.isGas)
+                {
+                    mainGrid.SwitchTiles(currentTile, targetTile);
+                }
+                else if (targetTilePhysics.isLiquid)
+                {
+                    mainGrid.MoveTile(currentTile, targetTile, currentPhysics.maxAmount, currentPhysics.speed); //Just try to moveTile
+                }
+            }
+
+            //If current is Gas
+            if (currentPhysics.isGas)
+            {
+                if (targetTilePhysics.isGas)
+                {
+                    if (Random.Range(0, 10) < 5)
+                    {
+                        mainGrid.SwitchTiles(currentTile, targetTile);
+                    }
+                    else
+                    {
+                        mainGrid.MoveTile(currentTile, targetTile, currentPhysics.maxAmount, currentPhysics.speed); //Just try to moveTile
+                    }
+                }
+            }
+        }
+        else 
+        {
+            mainGrid.MoveTile(currentTile, targetTile, currentPhysics.maxAmount, currentPhysics.speed); //Just try to moveTile
+        }
     }
 
     private void GasPhysics(int x, int y)
@@ -135,7 +182,7 @@ public class TilePhysics : BaseClass
             Tile upTile = mainGrid.GetTile(new Vector2Int(x, y - 1));
             if (upTile.amount < currentTile.amount)
             {
-                mainGrid.MoveTile(currentTile, upTile, currentPhysics.maxAmount, currentPhysics.speed);
+                MoveTilePhysics(currentTile, upTile);
             }
         }
         else if (randomValue >= 25 && randomValue <= 49) //right
@@ -143,7 +190,7 @@ public class TilePhysics : BaseClass
             Tile rightTile = mainGrid.GetTile(new Vector2Int(x + 1, y));
             if (rightTile.amount < currentTile.amount)
             {
-                mainGrid.MoveTile(currentTile, rightTile, currentPhysics.maxAmount, currentPhysics.speed);
+                MoveTilePhysics(currentTile, rightTile);
             }
         }
         else if (randomValue >= 50 && randomValue <= 74) //down
@@ -151,7 +198,7 @@ public class TilePhysics : BaseClass
             Tile downTile = mainGrid.GetTile(new Vector2Int(x, y + 1));
             if (downTile.amount < currentTile.amount)
             {
-                mainGrid.MoveTile(currentTile, downTile, currentPhysics.maxAmount, currentPhysics.speed);
+                MoveTilePhysics(currentTile, downTile);
             }
         }
         else //left
@@ -159,40 +206,68 @@ public class TilePhysics : BaseClass
             Tile leftTile = mainGrid.GetTile(new Vector2Int(x - 1, y));
             if (leftTile.amount < currentTile.amount)
             {
-                mainGrid.MoveTile(currentTile, leftTile, currentPhysics.maxAmount, currentPhysics.speed);
+                MoveTilePhysics(currentTile, leftTile);
             }
         }
     }
 
     private void LiquidPhysics(int x, int y)
     {
-        if (Random.Range(0, 99) > 50)
+        if (Random.Range(0, 10) < 5)
         {
             Tile leftTile = mainGrid.GetTile(new Vector2Int(x - 1, y));
-            LiquidMoveTile(leftTile);
+            CalcLiquid(leftTile, x, y);
+
             Tile rightTile = mainGrid.GetTile(new Vector2Int(x + 1, y));
-            LiquidMoveTile(rightTile);
+            CalcLiquid(rightTile, x, y);
         }
         else
         {
             Tile rightTile = mainGrid.GetTile(new Vector2Int(x + 1, y));
-            LiquidMoveTile(rightTile);
+            CalcLiquid(rightTile, x, y);
+
             Tile leftTile = mainGrid.GetTile(new Vector2Int(x - 1, y));
-            LiquidMoveTile(leftTile);
+            CalcLiquid(leftTile, x, y);
         }
     }
 
-    private void LiquidMoveTile(Tile targetTile)
+    private void CalcLiquid(Tile directionTile, int x, int y)
     {
-
-        if (targetTile.id == ID.none || targetTile.id == currentTile.id)
+        //try to move gas
+        PhysicTiles.TryGetValue(directionTile.id, out PhysicsTile directionTilePhysics);
+        if (directionTilePhysics != null)
         {
-            if (targetTile.amount < currentTile.amount)
+            if (directionTilePhysics.isGas)
             {
-                mainGrid.MoveTile(currentTile, targetTile, currentPhysics.maxAmount, currentPhysics.speed);
+                Tile directionTileUp = mainGrid.GetTile(new Vector2Int(x, y - 1));
+                PhysicTiles.TryGetValue(directionTileUp.id, out PhysicsTile directionTileUpPhysics);
+
+                if (directionTileUpPhysics != null)
+                {
+                    if (directionTileUpPhysics.isGas)
+                    {
+                        //Move Gas
+                        mainGrid.SetTile(directionTileUp.pos, directionTileUp.id, directionTileUp.amount + directionTile.amount, (directionTileUp.temp + directionTile.temp) / 2);
+                        mainGrid.ClearTile(directionTile.pos);
+                        //Move Liquid
+                        MoveTilePhysics(currentTile, directionTile);
+                    }
+                }
             }
         }
+        else
+        {
+            //Move Liquid
+            MoveTilePhysics(currentTile, directionTile);
+        }
     }
+
+    private void Gravity(Tile downTile)
+    {
+        MoveTilePhysics(currentTile, downTile);
+    }
+
+    //Temperature----------------------------------------------------------------------------
 
     private void TempPhysics(Tile upTile, Tile downTile, Tile rightTile, Tile leftTile)
     {
@@ -285,25 +360,5 @@ public class TilePhysics : BaseClass
             }
         }
     }
-
-    private void GravityPhysics(Tile downTile)
-    {
-        PhysicTiles.TryGetValue(downTile.id, out PhysicsTile downTilePhysics);
-
-        if (downTilePhysics != null) 
-        {
-            if (downTilePhysics.isLiquid)
-            {
-                mainGrid.SwitchTiles(currentTile, downTile);
-            }
-            else if (downTilePhysics.isGas)
-            {
-                mainGrid.SwitchTiles(currentTile, downTile);
-            }
-        }
-        else
-        {
-            mainGrid.MoveTile(currentTile, downTile, currentPhysics.maxAmount, currentPhysics.speed);
-        }
-    }
+    //--------------------------------------------------------------------------------------
 }

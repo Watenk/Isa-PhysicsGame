@@ -81,6 +81,11 @@ public class AmountRenderer : BaseClass
                 {
                     int currentAmount = MainGrid.GetTile(new Vector2Int(x, y)).amount;
 
+                    if (currentAmount > 9)
+                    {
+                        currentAmount = 9;
+                    }
+
                     //Generate quads
                     //Vertices
                     int verticesAndUvIndex = i * 4;
