@@ -559,7 +559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AutoStart: 1
   GeneralPhysicsSpeed: 1
-  TempDifferenceMagnitude: 1000
+  TempDifferenceMagnitude: 500
 --- !u!1 &404239607
 GameObject:
   m_ObjectHideFlags: 0
@@ -1518,7 +1518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AutoStart: 0
   gridRenderer: {fileID: 281188633}
-  Width: 100
+  Width: 200
   Height: 100
 --- !u!1 &1782152884
 GameObject:

@@ -28,13 +28,13 @@ public class TilePhysics : BaseClass
         //Tile Physics properties (probably shouldn't hardcode)
 
         //                  ID                       ID                    solid  liquid  gas  UPS  Grav  Max SP  Th  -----MinTemp-------     -------MaxTemp--------
-        PhysicTiles.Add(ID.dirt, new PhysicsTile(ID.dirt,                   true, false, false,  1, true,  9, 5,  10, true,  25000, ID.grass, true,  5000000, ID.carbonDioxite));
-        PhysicTiles.Add(ID.grass, new PhysicsTile(ID.grass,                 true, false, false,  1, true,  9, 5,  10, false,     0, ID.none,  true,    50000, ID.dirt));
+        PhysicTiles.Add(ID.dirt, new PhysicsTile(ID.dirt,                   true, false, false,  1, true,  9, 5,   5, true,  25000, ID.grass, true,  5000000, ID.carbonDioxite));
+        PhysicTiles.Add(ID.grass, new PhysicsTile(ID.grass,                 true, false, false,  1, true,  9, 5,   5, false,     0, ID.none,  true,    50000, ID.dirt));
         PhysicTiles.Add(ID.water, new PhysicsTile(ID.water,                 false, true, false,  1, true,  9, 9,  10, true,  -1000, ID.ice,   true,   100000, ID.steam));
         PhysicTiles.Add(ID.stone, new PhysicsTile(ID.stone,                 true, false, false, 20, false, 9, 9,   2, false,     0, ID.none,  true, 10000000, ID.carbonDioxite));
         PhysicTiles.Add(ID.ice, new PhysicsTile(ID.ice,                     true, false, false, 20, false, 9, 1,  10, false,     0, ID.none,  true,     1000, ID.water));
-        PhysicTiles.Add(ID.carbonDioxite, new PhysicsTile(ID.carbonDioxite, false, false, true, 10, false, 9, 1, 200, false,     0, ID.none,  false,       0, ID.none));
-        PhysicTiles.Add(ID.oxygen, new PhysicsTile(ID.oxygen,               false, false, true, 10, false, 9, 1, 100, false,     0, ID.none,  false,       0, ID.none));
+        PhysicTiles.Add(ID.carbonDioxite, new PhysicsTile(ID.carbonDioxite, false, false, true, 10, false, 9, 1, 100, false,     0, ID.none,  false,       0, ID.none));
+        PhysicTiles.Add(ID.oxygen, new PhysicsTile(ID.oxygen,               false, false, true, 10, false, 9, 1,  50, false,     0, ID.none,  false,       0, ID.none));
         PhysicTiles.Add(ID.steam, new PhysicsTile(ID.steam,                 false, false, true, 10, false, 9, 1,  10, true,  96000, ID.water, false,       0, ID.none));
     }
 
@@ -176,37 +176,76 @@ public class TilePhysics : BaseClass
 
     private void GasPhysics(int x, int y)
     {
-        int randomValue = Random.Range(0, 99);
-        if (randomValue <= 24) //up
+        if (currentTile.id == ID.steam)
         {
-            Tile upTile = mainGrid.GetTile(new Vector2Int(x, y - 1));
-            if (upTile.amount < currentTile.amount)
+            int randomValue = Random.Range(0, 99);
+            if (randomValue <= 74) //up
             {
-                MoveTilePhysics(currentTile, upTile);
+                Tile upTile = mainGrid.GetTile(new Vector2Int(x, y - 1));
+                if (upTile.amount < currentTile.amount)
+                {
+                    MoveTilePhysics(currentTile, upTile);
+                }
+            }
+            else if (randomValue >= 75 && randomValue <= 83) //right
+            {
+                Tile rightTile = mainGrid.GetTile(new Vector2Int(x + 1, y));
+                if (rightTile.amount < currentTile.amount)
+                {
+                    MoveTilePhysics(currentTile, rightTile);
+                }
+            }
+            else if (randomValue >= 84 && randomValue <= 92) //down
+            {
+                Tile downTile = mainGrid.GetTile(new Vector2Int(x, y + 1));
+                if (downTile.amount < currentTile.amount)
+                {
+                    MoveTilePhysics(currentTile, downTile);
+                }
+            }
+            else //left
+            {
+                Tile leftTile = mainGrid.GetTile(new Vector2Int(x - 1, y));
+                if (leftTile.amount < currentTile.amount)
+                {
+                    MoveTilePhysics(currentTile, leftTile);
+                }
             }
         }
-        else if (randomValue >= 25 && randomValue <= 49) //right
+        else
         {
-            Tile rightTile = mainGrid.GetTile(new Vector2Int(x + 1, y));
-            if (rightTile.amount < currentTile.amount)
+            int randomValue = Random.Range(0, 99);
+            if (randomValue <= 24) //up
             {
-                MoveTilePhysics(currentTile, rightTile);
+                Tile upTile = mainGrid.GetTile(new Vector2Int(x, y - 1));
+                if (upTile.amount < currentTile.amount)
+                {
+                    MoveTilePhysics(currentTile, upTile);
+                }
             }
-        }
-        else if (randomValue >= 50 && randomValue <= 74) //down
-        {
-            Tile downTile = mainGrid.GetTile(new Vector2Int(x, y + 1));
-            if (downTile.amount < currentTile.amount)
+            else if (randomValue >= 25 && randomValue <= 49) //right
             {
-                MoveTilePhysics(currentTile, downTile);
+                Tile rightTile = mainGrid.GetTile(new Vector2Int(x + 1, y));
+                if (rightTile.amount < currentTile.amount)
+                {
+                    MoveTilePhysics(currentTile, rightTile);
+                }
             }
-        }
-        else //left
-        {
-            Tile leftTile = mainGrid.GetTile(new Vector2Int(x - 1, y));
-            if (leftTile.amount < currentTile.amount)
+            else if (randomValue >= 50 && randomValue <= 74) //down
             {
-                MoveTilePhysics(currentTile, leftTile);
+                Tile downTile = mainGrid.GetTile(new Vector2Int(x, y + 1));
+                if (downTile.amount < currentTile.amount)
+                {
+                    MoveTilePhysics(currentTile, downTile);
+                }
+            }
+            else //left
+            {
+                Tile leftTile = mainGrid.GetTile(new Vector2Int(x - 1, y));
+                if (leftTile.amount < currentTile.amount)
+                {
+                    MoveTilePhysics(currentTile, leftTile);
+                }
             }
         }
     }

@@ -168,7 +168,20 @@ public class Inputs : BaseClass
 
         if (inputManager.LeftMouse == true)
         {
-            mainGrid.SetTile(inputManager.mousePosGrid, currentElement, 9, 20000);
+            if (currentElement == ID.steam)
+            {
+                mainGrid.SetTile(inputManager.mousePosGrid, currentElement, 9, 1400000);
+
+            }
+            else if (currentElement == ID.ice)
+            {
+                mainGrid.SetTile(inputManager.mousePosGrid, currentElement, 9, -10000);
+
+            }
+            else
+            {
+                mainGrid.SetTile(inputManager.mousePosGrid, currentElement, 9, 20000);
+            }
         }
     }
 
